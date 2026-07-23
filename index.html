@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omni IP & Security Toolkit</title>
+    <title>Omni Security Toolkit</title>
     <style>
         :root {
             --bg: #090d16;
@@ -36,7 +36,7 @@
             text-align: center;
         }
 
-        /* 탭 메뉴 스타일 (IP | 해킹툴) */
+        /* 3분할 탭 메뉴 스타일 */
         .tab-menu {
             display: flex;
             width: 100%;
@@ -53,11 +53,12 @@
             background-color: transparent;
             color: #94a3b8;
             border: none;
-            padding: 12px;
-            font-size: 14px;
+            padding: 12px 6px;
+            font-size: 13px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s;
+            text-align: center;
         }
 
         .tab-btn.active {
@@ -223,71 +224,67 @@
 </head>
 <body>
 
-<!-- 악용 금지 동의 팝업 모달 -->
+<!-- 경고 및 동의 팝업 모달 -->
 <div id="disclaimerModal" class="modal">
     <div class="modal-content">
         <div class="modal-title">⚠️ 경고 및 이용 약관</div>
         <div class="modal-desc">
-            본 툴킷은 <b>합법적인 IP 분석 및 보안 학습용</b>으로만 제작되었습니다.<br><br>
-            * 허가받지 않은 타인을 대상으로 악용할 경우 모든 책임은 사용자 본인에게 있습니다.<br><br>
-            동의하시는 경우에만 입장이 가능합니다.
+            본 툴킷은 <b>보안 진단 및 네트워크 분석 학습용</b>으로 제작되었습니다.<br><br>
+            * 타인의 IP나 시스템을 무단으로 조회·공격하는 행위는 법적 책임의 대상이 될 수 있습니다.
         </div>
         <button class="modal-btn" onclick="closeDisclaimer()">동의하고 입장하기</button>
     </div>
 </div>
 
-<h2>OMNI INFRA TOOLKIT</h2>
+<h2>OMNI SECURITY TOOLKIT</h2>
 
-<!-- 상단 선택 탭 (IP | 해킹툴) -->
+<!-- 상단 3분할 탭 메뉴 -->
 <div class="tab-menu">
-    <button class="tab-btn active" id="btnTabIp" onclick="switchTab('ip')">IP | 네트워크 툴</button>
-    <button class="tab-btn" id="btnTabHacking" onclick="switchTab('hacking')">해킹툴 | 100가지 유틸</button>
+    <button class="tab-btn active" id="btnTabIp" onclick="switchTab('ip')">🎯 IP 분석</button>
+    <button class="tab-btn" id="btnTabHacking" onclick="switchTab('hacking')">🛡️ 해킹툴</button>
+    <button class="tab-btn" id="btnTabNet" onclick="switchTab('net')">🌐 네트워크</button>
 </div>
 
-<!-- TAB 1: IP 툴 영역 -->
+<!-- TAB 1: IP 분석 (내 IP + 타인 IP 추적/조회) -->
 <div id="tabIp" class="container active">
     <div class="tool-box">
-        <span class="tool-title">🎯 IP 및 네트워크 정보 수집</span>
-        <button class="primary" onclick="execTool(2)">내 공인 IP 및 네트워크 환경 조회</button>
+        <span class="tool-title">📍 내 IP 및 환경 정보</span>
+        <button class="primary" onclick="execTool('my_ip')">내 공인 IP 및 세부 정보 조회</button>
     </div>
 
     <div class="tool-box">
-        <span class="tool-title">🌐 네트워크 & 서버 인프라 진단</span>
-        <input type="text" id="netTarget" value="https://api.ipify.org?format=json" placeholder="대상 URL 입력">
-        <div class="grid-2">
-            <button class="primary" onclick="execTool(1)">1. Latency(응답속도) 측정</button>
-            <button onclick="execTool(2)">2. 사용자 IP 정보 수집</button>
-            <button onclick="execTool(3)">3. 브라우저 User-Agent 분석</button>
-            <button onclick="execTool(7)">7. 네트워크 연결 상태 체크</button>
+        <span class="tool-title">🎯 타인/외부 IP 분석 (GeoIP Lookup)</span>
+        <input type="text" id="targetIpInput" placeholder="분석할 IP 주소 입력 (예: 8.8.8.8)">
+        <button class="primary" onclick="execTool('other_ip')">타겟 IP 위치 및 ISP 조회</button>
+    </div>
+</div>
+
+<!-- TAB 2: 해킹툴 (인코딩, 페이로드, 취약점 탐지) -->
+<div id="tabHacking" class="container">
+    <div class="tool-box">
+        <span class="tool-title">🔒 보안 인코딩 & 페이로드 툴</span>
+        <input type="text" id="secInput" placeholder="변환 또는 검사할 문자열 입력">
+        <div class="grid-4">
+            <button onclick="execTool('b64_enc')">Base64 Enc</button>
+            <button onclick="execTool('b64_dec')">Base64 Dec</button>
+            <button onclick="execTool('url_enc')">URL Enc</button>
+            <button onclick="execTool('url_dec')">URL Dec</button>
+            <button onclick="execTool('sqli_check')">SQLi 탐지</button>
+            <button onclick="execTool('xss_check')">XSS 검사</button>
+            <button onclick="execTool('jwt_dec')">JWT 디코더</button>
+            <button onclick="execTool('uuid_gen')">UUID 생성</button>
         </div>
     </div>
 </div>
 
-<!-- TAB 2: 해킹툴 / 100가지 유틸 영역 -->
-<div id="tabHacking" class="container">
+<!-- TAB 3: 네트워크 (핑, 속도, 연결 상태) -->
+<div id="tabNet" class="container">
     <div class="tool-box">
-        <span class="tool-title">🔒 보안, 인코딩 & 시뮬레이션 툴 (16~35)</span>
-        <input type="text" id="secInput" placeholder="변환 또는 분석할 문자열 입력">
-        <div class="grid-4">
-            <button onclick="execTool(16)">Base64 Enc</button>
-            <button onclick="execTool(17)">Base64 Dec</button>
-            <button onclick="execTool(18)">URL Enc</button>
-            <button onclick="execTool(19)">URL Dec</button>
-            <button onclick="execTool(26)">SQLi 탐지</button>
-            <button onclick="execTool(27)">XSS 페이로드 검사</button>
-            <button onclick="execTool(30)">JWT 디코더</button>
-            <button onclick="execTool(31)">UUID 생성</button>
-        </div>
-    </div>
-
-    <div class="tool-box">
-        <span class="tool-title">📦 데이터 포맷팅 & 파서 툴 (36~60)</span>
-        <textarea id="dataInput" style="height: 40px;" placeholder='{"id": 1}'></textarea>
-        <div class="grid-4">
-            <button onclick="execTool(36)">JSON Pretty</button>
-            <button onclick="execTool(37)">JSON Minify</button>
-            <button onclick="execTool(38)">JSON 유효성</button>
-            <button onclick="execTool(40)">XML 감싸기</button>
+        <span class="tool-title">🌐 네트워크 진단 툴</span>
+        <input type="text" id="netTarget" value="https://api.ipify.org?format=json" placeholder="대상 URL 입력">
+        <div class="grid-2">
+            <button class="primary" onclick="execTool('latency')">서버 응답 속도(Latency)</button>
+            <button onclick="execTool('online_check')">네트워크 연결 상태 체크</button>
         </div>
     </div>
 </div>
@@ -305,15 +302,20 @@
     function switchTab(tabName) {
         document.getElementById('tabIp').classList.remove('active');
         document.getElementById('tabHacking').classList.remove('active');
+        document.getElementById('tabNet').classList.remove('active');
         document.getElementById('btnTabIp').classList.remove('active');
         document.getElementById('btnTabHacking').classList.remove('active');
+        document.getElementById('btnTabNet').classList.remove('active');
 
         if(tabName === 'ip') {
             document.getElementById('tabIp').classList.add('active');
             document.getElementById('btnTabIp').classList.add('active');
-        } else {
+        } else if(tabName === 'hacking') {
             document.getElementById('tabHacking').classList.add('active');
             document.getElementById('btnTabHacking').classList.add('active');
+        } else {
+            document.getElementById('tabNet').classList.add('active');
+            document.getElementById('btnTabNet').classList.add('active');
         }
     }
 
@@ -327,48 +329,51 @@
         box.scrollTop = box.scrollHeight;
     }
 
-    async function execTool(id) {
-        log(`\n[ID:${id}] 실행 중...`);
-        const netUrl = document.getElementById('netTarget').value;
+    async function execTool(type) {
+        log(`\n[실행] ${type} 작업 수행 중...`);
         const secVal = document.getElementById('secInput').value;
-        const dataVal = document.getElementById('dataInput').value;
+        const netUrl = document.getElementById('netTarget').value;
+        const targetIp = document.getElementById('targetIpInput').value;
 
         try {
-            switch(id) {
-                case 1:
+            switch(type) {
+                case 'my_ip':
+                    let res = await fetch("https://ipapi.co/json/");
+                    let data = await res.json();
+                    log(`-> [내 IP 정보]\n IP: ${data.ip}\n 국가: ${data.country_name}\n 도시: ${data.city}\n ISP: ${data.org}`);
+                    break;
+                case 'other_ip':
+                    if(!targetIp) { log("❌ 분석할 IP 주소를 입력해주세요."); return; }
+                    let resOther = await fetch(`https://ipapi.co/${targetIp}/json/`);
+                    let dataOther = await resOther.json();
+                    if(dataOther.error) {
+                        log(`❌ [조회 실패]: 유효하지 않은 IP이거나 조회 제한 초과.`);
+                    } else {
+                        log(`-> [타겟 IP 분석: ${targetIp}]\n 국가: ${dataOther.country_name}\n 지역: ${dataOther.region}\n 통신사(ISP): ${dataOther.org}`);
+                    }
+                    break;
+                case 'b64_enc': log(`-> [Base64 Enc]: ${btoa(unescape(encodeURIComponent(secVal)))}`); break;
+                case 'b64_dec': log(`-> [Base64 Dec]: ${decodeURIComponent(escape(atob(secVal)))}`); break;
+                case 'url_enc': log(`-> [URL Enc]: ${encodeURIComponent(secVal)}`); break;
+                case 'url_dec': log(`-> [URL Dec]: ${decodeURIComponent(secVal)}`); break;
+                case 'sqli_check': log(`-> [SQLi 탐지]: ${secVal.includes("'")||secVal.includes("OR") ? "⚠️ 취약 구문 포함 가능성" : "✅ 안전함"}`); break;
+                case 'xss_check': log(`-> [XSS 검사]: ${secVal.includes("<script>") ? "⚠️ 스크립트 태그 감지됨" : "✅ 정상"}`); break;
+                case 'jwt_dec': log(`-> [JWT 디코더]: 페이로드 파싱 완료`); break;
+                case 'uuid_gen': log(`-> [UUID v4]: ${crypto.randomUUID()}`); break;
+                case 'latency':
                     let start = performance.now();
-                    let res = await fetch(netUrl, {cache: "no-store"});
+                    let netRes = await fetch(netUrl, {cache: "no-store"});
                     let end = performance.now();
-                    log(`-> [Latency] 응답 시간: ${Math.round(end - start)}ms (Status: ${res.status})`);
+                    log(`-> [Latency] 응답 시간: ${Math.round(end - start)}ms (Status: ${netRes.status})`);
                     break;
-                case 2:
-                    let ipRes = await fetch("https://api.ipify.org?format=json");
-                    let ipData = await ipRes.json();
-                    log(`-> [IP 정보] 공인 IP: ${ipData.ip}`);
-                    break;
-                case 3: log(`-> [User-Agent]: ${navigator.userAgent}`); break;
-                case 7: log(`-> [네트워크 연결]: ${navigator.onLine ? "온라인" : "오프라인"}`); break;
-                case 16: log(`-> [Base64 Enc]: ${btoa(unescape(encodeURIComponent(secVal)))}`); break;
-                case 17: log(`-> [Base64 Dec]: ${decodeURIComponent(escape(atob(secVal)))}`); break;
-                case 18: log(`-> [URL Enc]: ${encodeURIComponent(secVal)}`); break;
-                case 19: log(`-> [URL Dec]: ${decodeURIComponent(secVal)}`); break;
-                case 26: log(`-> [SQLi 탐지]: ${secVal.includes("'")||secVal.includes("OR") ? "⚠️ 취약 구문 포함" : "✅ 안전함"}`); break;
-                case 27: log(`-> [XSS 필터]: ${secVal.includes("<script>") ? "⚠️ 태그 감지됨" : "✅ 정상"}`); break;
-                case 30: log(`-> [JWT 디코더]: 파싱 완료`); break;
-                case 31: log(`-> [UUID v4]: ${crypto.randomUUID()}`); break;
-                case 36: log(`-> [JSON Pretty]:\n${JSON.stringify(JSON.parse(dataVal), null, 2)}`); break;
-                case 37: log(`-> [JSON Minify]: ${JSON.stringify(JSON.parse(dataVal))}`); break;
-                case 38: JSON.parse(dataVal); log(`-> [JSON 유효성]: 정상`); break;
-                case 40: log(`-> [XML 감싸기]: <root>${dataVal}</root>`); break;
-                default: log(`-> 기능 실행 완료`); break;
+                case 'online_check': log(`-> [네트워크 연결]: ${navigator.onLine ? "온라인 상태" : "오프라인 상태"}`); break;
+                default: log(`-> 작업 완료`); break;
             }
         } catch(e) {
-            log(`❌ [에러 발생]: ${e.message} (입력값을 확인해주세요)`);
+            log(`❌ [에러 발생]: ${e.message}`);
         }
     }
 </script>
 
 </body>
 </html>
-
-```
