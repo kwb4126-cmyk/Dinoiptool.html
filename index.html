@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP 조회 도구</title>
+    <title>위치 확인 도구</title>
     <style>
         :root {
             --bg: #121212;
@@ -42,28 +42,9 @@
             gap: 12px;
         }
 
-        /* 둥글둥글한 입력창 */
-        input[type="text"] {
-            background-color: var(--btn-bg);
-            color: var(--fg);
-            border: 1px solid var(--border);
-            padding: 12px 16px;
-            font-family: inherit;
-            border-radius: 24px;
-            outline: none;
-            width: 100%;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-
-        input[type="text"]:focus {
-            border-color: var(--accent);
-        }
-
-        /* 버튼 그리드 (둥글둥글한 알약 형태) */
         .grid-btns {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(2, 1fr);
             gap: 8px;
         }
 
@@ -71,11 +52,11 @@
             background-color: var(--btn-bg);
             color: var(--fg);
             border: 1px solid var(--border);
-            padding: 12px 8px;
+            padding: 14px 8px;
             font-family: inherit;
             cursor: pointer;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 14px;
             font-weight: 500;
             transition: background 0.2s, border-color 0.2s;
         }
@@ -98,7 +79,6 @@
             padding: 0 4px;
         }
 
-        /* 둥글둥글한 로그 출력창 */
         textarea {
             background-color: var(--btn-bg);
             color: var(--fg);
@@ -115,7 +95,6 @@
             line-height: 1.4;
         }
 
-        /* 하단 추가 기능 버튼 영역 */
         .extra-btns {
             display: flex;
             gap: 8px;
@@ -137,150 +116,87 @@
 <body>
 
 <div class="container">
-    <h2>IP 조회 및 정보 확인</h2>
-
-    <input type="text" id="ipInput" placeholder="IP 주소 입력">
+    <h2>실제 위치 확인 도구</h2>
 
     <div class="grid-btns">
-        <button onclick="ipLookup()">조회</button>
-        <button onclick="autoDetect()">내 IP</button>
-        <button onclick="pasteClip()">붙여넣기</button>
-        <button onclick="showStats()">통계</button>
-        <button onclick="showLog()">로그</button>
+        <button onclick="getMyLocation()">내 위치 찾기 (GPS)</button>
         <button onclick="clearLog()">초기화</button>
     </div>
 
     <div class="status-bar">
-        <span id="counterLabel">조회 횟수: 0</span>
-        <span id="targetIpLabel" style="color: #666;">대상: 없음</span>
+        <span id="counterLabel">측정 횟수: 0</span>
+        <span id="targetIpLabel" style="color: #666;">정확도: 높음</span>
     </div>
 
-    <textarea id="logText" readonly>준비 완료</textarea>
+    <textarea id="logText" readonly>버튼을 눌러 현재 위치를 확인하세요.</textarea>
 
-    <!-- 추가된 기능 버튼들 (지도 열기, 결과 복사) -->
     <div class="extra-btns">
-        <button onclick="openMap()">📍 지도 열기</button>
+        <button onclick="openMap()">📍 구글 지도 열기</button>
         <button onclick="copyResult()">📋 결과 복사</button>
     </div>
 </div>
 
 <script>
     let count = 0;
-    let stats = {};
-    let lastIp = null;
-    let lastResultText = "";
+    let lastLat = null;
+    let lastLon = null;
 
     const txt = document.getElementById('logText');
-    const e = document.getElementById('ipInput');
     const c = document.getElementById('counterLabel');
-    const targetLabel = document.getElementById('targetIpLabel');
 
     function log(text) {
         txt.value += text;
         txt.scrollTop = txt.scrollHeight;
     }
 
-    async function pasteClip() {
-        try {
-            const text = await navigator.clipboard.readText();
-            e.value = text;
-        } catch (err) {
-            alert("클립보드 권한이 거부되었거나 지원하지 않는 브라우저입니다.");
-        }
-    }
-
-    async function ipLookup() {
-        const ip = e.value.trim();
-        if (!ip) {
-            alert("IP 주소를 입력하세요.");
+    function getMyLocation() {
+        if (!navigator.geolocation) {
+            alert("이 브라우저는 위치 정보를 지원하지 않습니다.");
             return;
         }
-        try {
-            lastIp = ip;
-            targetLabel.innerText = `대상: ${ip}`;
-            
-            let res = await fetch(`https://ipwho.is/${ip}`);
-            let d = await res.json();
-            
-            if (!d.success) {
-                alert("유효하지 않은 IP 주소입니다.");
-                return;
+
+        log("\n> 위치 정보 요청 중...\n");
+
+        navigator.geolocation.getCurrentPosition(
+            async (position) => {
+                lastLat = position.coords.latitude;
+                lastLon = position.coords.longitude;
+                let accuracy = position.coords.accuracy;
+                let timeStr = new Date().toLocaleTimeString();
+
+                let resultStr = `[${timeStr}] GPS 위치 측정 성공\n- 위도: ${lastLat}\n- 경도: ${lastLon}\n- 오차 범위: 약 ${Math.round(accuracy)}m\n\n`;
+                
+                count++;
+                c.innerText = `측정 횟수: ${count}`;
+                log(resultStr);
+            },
+            (error) => {
+                alert("위치 정보를 가져오지 못했습니다. 위치 권한을 허용했는지 확인해주세요.");
+                log(`> 에러: ${error.message}\n`);
+            },
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
             }
-            
-            let status = (d.connection && (d.connection.proxy || d.connection.hosting)) ? "VPN / 호스팅 의심" : "정상 네트워크";
-            let timeStr = new Date().toLocaleTimeString();
-            
-            lastResultStr = `[${timeStr}] IP: ${ip}\n상태: ${status}\n국가/도시: ${d.country} ${d.city}\nISP: ${d.connection ? d.connection.isp : '정보 없음'}\n위도/경도: ${d.latitude}, ${d.longitude}\n\n`;
-            
-            stats[d.country] = (stats[d.country] || 0) + 1;
-            count++;
-            c.innerText = `조회 횟수: ${count}`;
-            
-            log(lastResultStr);
-        } catch (ex) {
-            alert("조회 중 오류가 발생했습니다: " + ex);
-        }
+        );
     }
 
-    async function autoDetect() {
-        try {
-            let res = await fetch("https://api.ipify.org?format=json");
-            let d = await res.json();
-            e.value = d.ip;
-            ipLookup();
-        } catch {
-            alert("공인 IP를 가져오지 못했습니다.");
-        }
-    }
-
-    function showStats() {
-        let statsStr = Object.entries(stats).map(([k, v]) => `${k}: ${v}회`).join("\n");
-        alert(statsStr || "조회된 데이터가 없습니다.");
-    }
-
-    async function showLog() {
-        if (!lastIp) {
-            log("조회된 IP 데이터가 없습니다.\n");
+    function openMap() {
+        if (!lastLat || !lastLon) {
+            alert("먼저 내 위치를 확인해주세요.");
             return;
         }
-        try {
-            let res = await fetch(`https://ipwho.is/${lastIp}`);
-            let d = await res.json();
-            log(`[로그 상세] ${lastIp}\n위치: ${d.country} ${d.city}\n좌표: ${d.latitude}, ${d.longitude}\n지도: https://maps.google.com/?q=${d.latitude},${d.longitude}\n\n`);
-        } catch {
-            log("로그를 불러오지 못했습니다.\n");
-        }
+        window.open(`https://maps.google.com/?q=${lastLat},${lastLon}`, '_blank');
     }
 
-    // [신규 기능] 구글 지도 바로 열기 버튼
-    async function openMap() {
-        if (!lastIp) {
-            alert("먼저 IP를 조회해주세요.");
-            return;
-        }
-        try {
-            let res = await fetch(`https://ipwho.is/${lastIp}`);
-            let d = await res.json();
-            if (d.latitude && d.longitude) {
-                window.open(`https://maps.google.com/?q=${d.latitude},${d.longitude}`, '_blank');
-            } else {
-                alert("위치 정보를 찾을 수 없습니다.");
-            }
-        } catch {
-            alert("지도 연동 중 오류가 발생했습니다.");
-        }
-    }
-
-    // [신규 기능] 조회 결과 클립보드 복사 버튼
     function copyResult() {
         if (!txt.value) {
             alert("복사할 내용이 없습니다.");
             return;
         }
         navigator.clipboard.writeText(txt.value).then(() => {
-            alert("조회 결과가 클립보드에 복사되었습니다!");
-        }).catch(() => {
-            alert("복사 실패");
+            alert("결과가 복사되었습니다!");
         });
     }
 
