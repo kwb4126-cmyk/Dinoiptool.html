@@ -211,7 +211,7 @@
         }
 
         .modal-title {
-            font-size: 15px;
+            fn-size: 15px;
             font-weight: bold;
             color: var(--alert-red);
         }
@@ -243,23 +243,23 @@
     <div class="modal-content">
         <div class="modal-title">[!] SYSTEM SECURITY ALERT</div>
         <div class="modal-desc">
-            본 툴킷은 고도화된 침투 테스트 및 사이버 보안 분석(Red Teaming) 실습용입니다.<br><br>
-            * 무단 타겟 스캔 및 침해 시도 시 모든 디지털 포렌식 자취가 기록되며 법적 책임은 사용자에게 있습니다.
+            본 툴킷은 모의 해킹 및 취약점 진단 학습용 시뮬레이터입니다.<br><br>
+            * 무단 타겟 공격 시 발생하는 모든 책임은 사용자에게 있습니다.
         </div>
         <button class="modal-btn" onclick="closeDisclaimer()">ACCESS GRANTED</button>
     </div>
 </div>
 
-<h2>DINO CYBERCOM // MATRIX CORE</h2>
+<h2>DINO CYBERCOM // ELITE TOOLKIT</h2>
 
 <div class="tab-menu">
-    <button class="tab-btn active" id="btnTabIp" onclick="switchTab('ip')">[01] INTEL & TRACE</button>
+    <button class="tab-btn active" id="btnTabIp" onclick="switchTab('ip')">[01] IP & ATTACK</button>
     <button class="tab-btn" id="btnTabHacking" onclick="switchTab('hacking')">[02] EXPLOIT & RED</button>
     <button class="tab-btn" id="btnTabNet" onclick="switchTab('net')">[03] NETWORK PUMP</button>
     <button class="tab-btn" id="btnTabManual" onclick="switchTab('manual')">[04] MANUAL</button>
 </div>
 
-<!-- TAB 1: IP 분석 (고급 OSINT, 역추적 기능) -->
+<!-- TAB 1: IP 분석 + 초급 공격(핑 오브 데스, 포트 스캔 등 시뮬레이션) -->
 <div id="tabIp" class="container active">
     <div class="tool-box">
         <span class="tool-title">LOCAL INTERFACE RECON</span>
@@ -267,16 +267,20 @@
     </div>
 
     <div class="tool-box">
-        <span class="tool-title">TARGET OSINT & GEO-PROFILING</span>
-        <input type="text" id="targetIpInput" placeholder="TARGET IP / DOMAIN (예: 1.1.1.1 또는 target.com)">
+        <span class="tool-title">TARGET OSINT & JUNIOR ATTACK SIMULATOR</span>
+        <input type="text" id="targetIpInput" placeholder="TARGET IP / DOMAIN (예: 127.0.0.1)">
         <div class="grid-2">
             <button class="primary" onclick="execTool('other_ip')">지오로케이션/ISP 털기</button>
-            <button onclick="execTool('dns_enum')">DNS 레코드 무차별 덤프</button>
+            <button onclick="execTool('port_scan')">🔍 포트 스캔 (Port Scan)</button>
+        </div>
+        <div class="grid-2" style="margin-top: 4px;">
+            <button style="border-color: #ef4444; color: #f87171;" onclick="execTool('ping_of_death')">💥 가상 핑오브데스 (PoD)</button>
+            <button style="border-color: #ef4444; color: #f87171;" onclick="execTool('ip_spoof')">🎭 가상 IP 스푸핑 (Spoof)</button>
         </div>
     </div>
 </div>
 
-<!-- TAB 2: 해킹툴 (실제 해커 스타일 기능) -->
+<!-- TAB 2: 해킹툴 -->
 <div id="tabHacking" class="container">
     <div class="tool-box">
         <span class="tool-title">PAYLOAD & CIPHER ENGINE</span>
@@ -291,10 +295,6 @@
             <button onclick="execTool('jwt_dec')">JWT 브레이크</button>
             <button onclick="execTool('uuid_gen')">UUID 생성</button>
         </div>
-    </div>
-    <div class="tool-box">
-        <span class="tool-title">VULNERABILITY SIMULATION</span>
-        <button class="primary" onclick="execTool('port_scan_sim')">> 타겟 포트 스캔 시뮬레이션 (SYN Flood 베이스)</button>
     </div>
 </div>
 
@@ -313,16 +313,12 @@
 <!-- TAB 4: 설명서 -->
 <div id="tabManual" class="container">
     <div class="tool-box">
-        <span class="tool-title">IP INTEL MANUAL</span>
-        <p class="manual-text"><b>[01] INTEL & TRACE:</b> 타겟 IP의 물리적 위치, 자치 시스템 번호(ASN), ISP 라우팅 경로를 정밀 프로파일링하여 데이터베이스화합니다.</p>
+        <span class="tool-title">IP INTEL & ATTACK MANUAL</span>
+        <p class="manual-text"><b>[01] IP & ATTACK:</b> 타겟의 위치 정보 조회뿐만 아니라, 초급 모의 해킹 기법인 포트 스캔, 가상 패킷 과부하(PoD), IP 위조 시뮬레이션을 수행합니다.</p>
     </div>
     <div class="tool-box">
         <span class="tool-title">RED TEAM MANUAL</span>
-        <p class="manual-text"><b>[02] EXPLOIT & RED:</b> 페이로드 난독화, 인코딩 변환 및 웹 취약점(SQLi, XSS) 페이로드 구조 분석을 실시간 수행합니다.</p>
-    </div>
-    <div class="tool-box">
-        <span class="tool-title">NETWORK PUMP MANUAL</span>
-        <p class="manual-text"><b>[03] NETWORK PUMP:</b> 엔드포인트 응답 속도 분석 및 가상 트래픽 부하 테스트를 통한 네트워크 대역폭 한계를 진단합니다.</p>
+        <p class="manual-text"><b>[02] EXPLOIT & RED:</b> 페이로드 난독화 및 웹 취약점 진단 도구를 제공합니다.</p>
     </div>
 </div>
 
@@ -365,11 +361,10 @@
                 case 'my_ip':
                     let res = await fetch("https://ipapi.co/json/");
                     let data = await res.json();
-                    log(`[+] LOCAL NODE DISCOVERED:\n    - IP: ${data.ip}\n    - COUNTRY: ${data.country_name} (${data.region})\n    - ISP/ORG: ${data.org}\n    - AS-NUM: ${data.asn || 'N/A'}`);
+                    log(`[+] LOCAL NODE DISCOVERED:\n    - IP: ${data.ip}\n    - COUNTRY: ${data.country_name} (${data.region})\n    - ISP/ORG: ${data.org}`);
                     break;
                 case 'other_ip':
                     if(!targetIp) { log("[-] ERROR: TARGET IP/DOMAIN REQUIRED."); return; }
-                    log(`[~] Resolving target: ${targetIp}...`);
                     let resOther = await fetch(`https://ipapi.co/${targetIp}/json/`);
                     let dataOther = await resOther.json();
                     if(dataOther.error) {
@@ -378,9 +373,17 @@
                         log(`[+] TARGET INTEL ACQUIRED:\n    - IP: ${dataOther.ip}\n    - REGION: ${dataOther.city}, ${dataOther.country_name}\n    - ORG: ${dataOther.org}`);
                     }
                     break;
-                case 'dns_enum':
-                    if(!targetIp) { log("[-] ERROR: TARGET DOMAIN REQUIRED."); return; }
-                    log(`[+] Performing DNS enumeration for ${targetIp}...\n    - A Record: 104.21.XX.XX (Cloudflare Protected)\n    - MX Record: mail.${targetIp}\n    - TXT Record: v=spf1 include:_spf...`);
+                case 'port_scan':
+                    if(!targetIp) { log("[-] ERROR: TARGET REQUIRED."); return; }
+                    log(`[+] SCANNING PORTS ON ${targetIp}...\n    - Port 21 (FTP): CLOSED\n    - Port 22 (SSH): OPEN\n    - Port 80 (HTTP): OPEN\n    - Port 443 (HTTPS): OPEN\n    - Port 3306 (MySQL): FILTERED`);
+                    break;
+                case 'ping_of_death':
+                    if(!targetIp) { log("[-] ERROR: TARGET REQUIRED."); return; }
+                    log(`[!] SIMULATING PING OF DEATH (PoD) ON ${targetIp}...\n    - Crafting oversized ICMP packets (65535 bytes)...\n    - Transmitting fragmented payload stream...\n    [+] Attack simulation packet sent successfully.`);
+                    break;
+                case 'ip_spoof':
+                    let fakeIp = Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255);
+                    log(`[+] GENERATING FAKE HEADER...\n    - Source IP Spoofed to: ${fakeIp}\n    - Packet header obfuscated successfully.`);
                     break;
                 case 'b64_enc': log(`[+] Base64 Encoded: ${btoa(unescape(encodeURIComponent(secVal)))}`); break;
                 case 'b64_dec': log(`[+] Base64 Decoded: ${decodeURIComponent(escape(atob(secVal)))}`); break;
@@ -389,21 +392,18 @@
                     log(`[+] HEX Dump: ${hex}`);
                     break;
                 case 'rev_str': log(`[+] Obfuscated (Rev): ${secVal.split('').reverse().join('')}`); break;
-                case 'sqli_check': log(`[+] SQLi Payload Test: ${secVal.includes("'")||secVal.includes("OR") ? "⚠️ VULNERABLE PATTERN DETECTED" : "✅ SECURE / NO ERROR-BASED SIGNATURE"}`); break;
+                case 'sqli_check': log(`[+] SQLi Payload Test: ${secVal.includes("'")||secVal.includes("OR") ? "⚠️ VULNERABLE PATTERN DETECTED" : "✅ SECURE"}`); break;
                 case 'xss_check': log(`[+] XSS Injection Test: ${secVal.includes("<script>") ? "⚠️ EXECUTION SINK DETECTED" : "✅ SANITIZED"}`); break;
-                case 'jwt_dec': log(`[+] JWT Header/Payload Decoded:\n    {"alg": "HS256", "typ": "JWT"}\n    {"sub": "auth_admin", "iat": 1774200000}`); break;
-                case 'uuid_gen': log(`[+] Generated UUID v4: ${crypto.randomUUID()}`); break;
-                case 'port_scan_sim':
-                    log(`[+] INITIALIZING SYN-SCAN ON TARGET...\n    PORT 21 (FTP) - CLOSED\n    PORT 22 (SSH) - OPEN (OpenSSH 8.9p1)\n    PORT 80 (HTTP) - OPEN (nginx/1.18.0)\n    PORT 443 (HTTPS) - OPEN (TLSv1.3)\n    PORT 3306 (MYSQL) - FILTERED`);
-                    break;
+                case 'jwt_dec': log(`[+] JWT Decoded:\n    {"alg": "HS256"}\n    {"sub": "admin_priv"}`); break;
+                case 'uuid_gen': log(`[+] UUID v4: ${crypto.randomUUID()}`); break;
                 case 'latency':
                     let start = performance.now();
                     let netRes = await fetch(netUrl, {cache: "no-store"});
                     let end = performance.now();
-                    log(`[+] PING RESPONSE: ${Math.round(end - start)}ms [HTTP Status: ${netRes.status}]`);
+                    log(`[+] PING RESPONSE: ${Math.round(end - start)}ms [Status: ${netRes.status}]`);
                     break;
                 case 'http_flood_sim':
-                    log(`[+] STRESS TEST SIMULATION INITIATED...\n    Sending 100 virtual concurrent requests to ${netUrl}\n    [====================] 100% SUCCESS. Target stable.`);
+                    log(`[+] STRESS TEST SIMULATION INITIATED...\n    [====================] 100% SUCCESS. Target stable.`);
                     break;
                 default: log(`[+] OPERATION COMPLETED.`); break;
             }
