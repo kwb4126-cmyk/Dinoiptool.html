@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>디노 해킹,공격툴 v2.1 (Ultimate Edition)</title>
+    <title>디노 해킹,공격툴 v2.1</title>
     <style>
         :root {
             --bg: #090d16;
@@ -16,6 +16,7 @@
             --danger: #ef4444;
             --danger-hover: #dc2626;
             --ultimate: #a855f7;
+            --ai-color: #10b981;
         }
 
         body {
@@ -39,7 +40,7 @@
             text-align: center;
         }
 
-        /* 4분할 탭 메뉴 스타일 */
+        /* 탭 메뉴 스타일 (5분할 통합) */
         .tab-menu {
             display: flex;
             width: 100%;
@@ -57,7 +58,7 @@
             color: #94a3b8;
             border: none;
             padding: 12px 2px;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s;
@@ -99,6 +100,10 @@
 
         .tool-title.ultimate {
             color: var(--ultimate);
+        }
+
+        .tool-title.ai {
+            color: var(--ai-color);
         }
 
         .manual-text {
@@ -180,6 +185,13 @@
         }
         button.ultimate:hover { background-color: #6b21a8; }
 
+        button.ai-btn {
+            background-color: #047857;
+            border-color: #10b981;
+            color: #ffffff;
+        }
+        button.ai-btn:hover { background-color: #065f46; }
+
         .output-box {
             background-color: #020617;
             color: #4ade80;
@@ -257,22 +269,23 @@
 <!-- 경고 및 동의 팝업 모달 -->
 <div id="disclaimerModal" class="modal">
     <div class="modal-content">
-        <div class="modal-title">⚠️ 디노 v2.1 Ultimate 이용 약관</div>
+        <div class="modal-title">⚠️ 디노 해킹,공격툴 v2.1 통합 약관</div>
         <div class="modal-desc">
-            본 프로그램은 <b>최상위 사이버전 및 고도화 모의 해킹 분석 학습용</b>으로 제작되었습니다.<br><br>
-            * 무단 침투 및 시스템 변조 시 발생하는 모든 법적 책임은 사용자 본인에게 있습니다.
+            본 프로그램은 <b>보안 분석 및 AI 머신러닝 학습용 툴킷</b>으로 통합 제작되었습니다.<br><br>
+            * 시스템 오남용 및 무단 침투 시 발생하는 책임은 사용자에게 있습니다.
         </div>
         <button class="modal-btn" onclick="closeDisclaimer()">동의하고 입장하기</button>
     </div>
 </div>
 
-<h2>디노 해킹,공격툴 v2.1 (Ultimate)</h2>
+<h2>디노 해킹,공격툴 v2.1</h2>
 
-<!-- 상단 4분할 탭 메뉴 -->
+<!-- 상단 5분할 탭 메뉴 -->
 <div class="tab-menu">
     <button class="tab-btn active" id="btnTabIp" onclick="switchTab('ip')">🎯 IP & OSINT</button>
-    <button class="tab-btn" id="btnTabHacking" onclick="switchTab('hacking')">🛡️ 고급 해킹툴</button>
-    <button class="tab-btn" id="btnTabUltimate" onclick="switchTab('ultimate')">🔥 초고급/사이버전</button>
+    <button class="tab-btn" id="btnTabHacking" onclick="switchTab('hacking')">🛡️ 고급 해킹</button>
+    <button class="tab-btn" id="btnTabUltimate" onclick="switchTab('ultimate')">🔥 초고급</button>
+    <button class="tab-btn" id="btnTabAi" onclick="switchTab('ai')">🧠 AI 학습</button>
     <button class="tab-btn" id="btnTabManual" onclick="switchTab('manual')">📖 설명서</button>
 </div>
 
@@ -304,7 +317,19 @@
 <!-- TAB 2: 고급 해킹툴 -->
 <div id="tabHacking" class="container">
     <div class="tool-box">
-        <span class="tool-title">🔒 암호화 및 페이로드 제너레이터</span>
+        <span class="tool-title">💼 고급 C2 및 내부망(AD) 툴킷</span>
+        <div class="grid-2">
+            <button class="primary" onclick="execTool('cobalt_simulate')">🔵 Cobalt Strike C2 비콘 시뮬</button>
+            <button class="primary" onclick="execTool('bloodhound_sim')">🩸 BloodHound AD 경로 분석</button>
+        </div>
+        <div class="grid-2">
+            <button class="danger" onclick="execTool('mimikatz_sim')">🔑 Mimikatz 메모리 자격증명 추출</button>
+            <button class="danger" onclick="execTool('impacket_sim')">⚡ Impacket 릴레이 공격 시뮬</button>
+        </div>
+    </div>
+
+    <div class="tool-box">
+        <span class="tool-title">🔒 페이로드 및 웹 진단 유틸리티</span>
         <input type="text" id="secInput" placeholder="변환 또는 페이로드에 넣을 문자열 입력">
         <div class="grid-4">
             <button onclick="execTool('b64_enc')">Base64 Enc</button>
@@ -323,11 +348,11 @@
     </div>
 </div>
 
-<!-- TAB 3: 초고급 / 사이버전 (최강 기능 추가) -->
+<!-- TAB 3: 초고급 / 사이버전 -->
 <div id="tabUltimate" class="container">
     <div class="tool-box">
-        <span class="tool-title ultimate">⚡ 국가급 사이버전 및 펌웨어 레벨 시뮬레이션</span>
-        <input type="text" id="ultTarget" placeholder="대상 시스템 코드명 또는 노드 지정 (예: TARGET-CORE-01)">
+        <span class="tool-title ultimate">⚡ 국가급 초고급 사이버전 시뮬레이션</span>
+        <input type="text" id="ultTarget" placeholder="대상 시스템 코드명 지정 (예: TARGET-CORE-01)">
         <div class="grid-2">
             <button class="ultimate" onclick="execTool('uefi_rootkit')">🧬 UEFI/BIOS 루트킷 시뮬레이션</button>
             <button class="ultimate" onclick="execTool('zero_click')">🦠 제로클릭(Zero-Click) 웜 전파</button>
@@ -340,15 +365,41 @@
     </div>
 </div>
 
-<!-- TAB 4: 설명서 -->
+<!-- TAB 4: AI 학습 기능 추가 -->
+<div id="tabAi" class="container">
+    <div class="tool-box">
+        <span class="tool-title ai">🧠 스스로 학습하는 퍼셉트론 AI 시뮬레이터</span>
+        <p class="manual-text" style="font-size: 12px; color: #94a3b8;">오답을 통해 가중치를 스스로 고치며 규칙을 터득하는 초소형 인공신경망입니다.</p>
+        
+        <div style="display:flex; gap:8px;">
+            <input type="number" id="aiIn1" placeholder="입력 1 (0 또는 1)" min="0" max="1">
+            <input type="number" id="aiIn2" placeholder="입력 2 (0 또는 1)" min="0" max="1">
+        </div>
+        <input type="number" id="aiTarget" placeholder="정답 레이블 (0 또는 1)" min="0" max="1">
+        
+        <button class="ai-btn" onclick="execTool('ai_train_once')">데이터 1회 학습시키기</button>
+        <button class="ai-btn" onclick="execTool('ai_auto_train')" style="background-color: #059669;">자동 AND 연산 패턴 학습 실행</button>
+
+        <div style="border-top: 1px solid var(--border); padding-top: 10px; margin-top: 5px;">
+            <span style="font-size: 12px; font-weight: bold; color: #10b981;">AI 추론 테스트</span>
+            <div style="display:flex; gap:8px; margin-top:6px;">
+                <input type="number" id="aiTest1" placeholder="테스트 값 1" min="0" max="1">
+                <input type="number" id="aiTest2" placeholder="테스트 값 2" min="0" max="1">
+            </div>
+            <button class="ai-btn" onclick="execTool('ai_predict')" style="margin-top:6px; background-color: #7c3aed;">AI에게 결과 예측 물어보기</button>
+        </div>
+    </div>
+</div>
+
+<!-- TAB 5: 통합 설명서 -->
 <div id="tabManual" class="container">
     <div class="tool-box">
-        <span class="tool-title ultimate">📖 초고급 사이버전 기능 설명서</span>
+        <span class="tool-title ultimate">📖 디노 v2.1 통합 가이드 및 설명서</span>
         <p class="manual-text">
-            <b>1. UEFI/BIOS 루트킷:</b> 메인보드 펌웨어 영역에 가상 페이로드를 인젝션하여 포맷 후에도 생존하는 시나리오를 재현합니다.<br>
-            <b>2. 제로클릭 웜:</b> 사용자 상호작용 없이 통신 채널을 통해 메모리에 직접 침투하는 전파 과정을 모사합니다.<br>
-            <b>3. 공급망 변조:</b> 개발 및 빌드 서버 업데이트 패킷에 백도어 코드가 주입되는 과정을 추적합니다.<br>
-            <b>4. TEMPEST EMF:</b> 기기 작동 시 방출되는 전자기파 신호를 수집하여 정보 화면을 역추적합니다.
+            <b>1. IP & OSINT:</b> 네트워크 공인 IP 조회, 포트 스캔 및 지오로케이션 역추적 기능을 수행합니다.<br>
+            <b>2. 고급 해킹 & C2:</b> 코발트 스트라이크 비콘, 미미카츠 자격증명 추출 및 웹 취약점 진단 기능을 포함합니다.<br>
+            <b>3. 초고급 사이버전:</b> UEFI 루트킷, 제로클릭 웜 전파 및 펌웨어 레벨 시뮬레이션을 제공합니다.<br>
+            <b>4. AI 학습 툴:</b> 인공신경망이 오답을 바탕으로 가중치를 자체 수정하며 패턴을 학습하는 퍼셉트론 모델입니다.
         </p>
     </div>
 </div>
@@ -357,14 +408,24 @@
 <div style="width: 100%; max-width: 600px; margin-top: 16px;">
     <div class="tool-box">
         <span class="tool-title">💻 시스템 실행 및 로그 출력창</span>
-        <textarea id="masterLog" class="output-box" readonly>[안전 안내]: 디노 v2.1 Ultimate 커널 구동 완료. 준비됨.</textarea>
+        <textarea id="masterLog" class="output-box" readonly>[안전 안내]: 디노 v2.1 통합 커널 구동 완료. 준비됨.</textarea>
         <button onclick="document.getElementById('masterLog').value='로그가 초기화되었습니다.'">로그 초기화</button>
     </div>
 </div>
 
 <script>
+    // AI 전용 두뇌 변수 초기화
+    let aiW1 = Math.random();
+    let aiW2 = Math.random();
+    let aiBias = Math.random() - 0.5;
+    let aiRate = 0.1;
+
+    function aiActivate(sum) {
+        return sum >= 0 ? 1 : 0;
+    }
+
     function switchTab(tabName) {
-        ['ip', 'hacking', 'ultimate', 'manual'].forEach(t => {
+        ['ip', 'hacking', 'ultimate', 'ai', 'manual'].forEach(t => {
             document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.remove('active');
             document.getElementById('btnTab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.remove('active');
         });
@@ -383,7 +444,7 @@
     }
 
     async function execTool(type) {
-        log(`\n[실행] ${type} 초고급 프로세스 수행 중...`);
+        log(`\n[실행] ${type} 프로세스 수행 중...`);
         const secVal = document.getElementById('secInput').value;
         const targetIp = document.getElementById('targetIpInput').value;
         const ultTarget = document.getElementById('ultTarget').value || "SYSTEM-NODE-X";
@@ -417,6 +478,18 @@
                     let fakeIp = Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255);
                     log(`-> [IP 스푸핑]: 가조작 소스 IP (${fakeIp}) 바인딩 완료.`);
                     break;
+                case 'cobalt_simulate':
+                    log(`-> [🔵 Cobalt Strike C2]\n - 비콘 리스너 구동 완료.\n [+] 가상 에이전트 핸드셰이크 성공 (HTTPS Beacon).`);
+                    break;
+                case 'bloodhound_sim':
+                    log(`-> [🩸 BloodHound AD 분석]\n - 도메인 그래프 탐색 중...\n [+] 일반 계정에서 최고 관리자(Domain Admin) 경로 탐지 완료.`);
+                    break;
+                case 'mimikatz_sim':
+                    log(`-> [🔑 Mimikatz 메모리 덤프]\n - LSASS 프로세스 후킹 성공.\n [+] NT 해시 및 평문 자격 증명 추출 완료.`);
+                    break;
+                case 'impacket_sim':
+                    log(`-> [⚡ Impacket 프로토콜 조작]\n - SMB/RPC 세션 바인딩 완료.\n [+] 패스-The-해시(Pass-the-Hash) 인증 우회 실행.`);
+                    break;
                 case 'uefi_rootkit':
                     log(`-> [🧬 UEFI/BIOS 루트킷 시뮬레이션]\n - 대상 노드: ${ultTarget}\n - SPI 플래시 메모리 레이어 접근 중...\n [+] 영구 지속성(Persistence) 펌웨어 백도어 인젝션 성공.`);
                     break;
@@ -445,6 +518,49 @@
                 case 'uuid_gen': log(`-> [UUID 생성]: ${crypto.randomUUID()}`); break;
                 case 'http_flood':
                     log(`-> [부하 테스트]: 가상 동시 요청 500개 송신 완료.`);
+                    break;
+                // AI 학습 로직 연동
+                case 'ai_train_once':
+                    let i1 = parseFloat(document.getElementById('aiIn1').value);
+                    let i2 = parseFloat(document.getElementById('aiIn2').value);
+                    let tgt = parseFloat(document.getElementById('aiTarget').value);
+                    if(isNaN(i1)||isNaN(i2)||isNaN(tgt)) { log("❌ AI 학습 값을 모두 입력해주세요."); return; }
+                    let sum = (i1 * aiW1) + (i2 * aiW2) + aiBias;
+                    let pred = aiActivate(sum);
+                    let err = tgt - pred;
+                    if(err !== 0) {
+                        aiW1 += aiRate * err * i1;
+                        aiW2 += aiRate * err * i2;
+                        aiBias += aiRate * err;
+                        log(`[🧠 AI 학습]: 오차 발생! 가중치 갱신됨 (W1:${aiW1.toFixed(2)}, W2:${aiW2.toFixed(2)})`);
+                    } else {
+                        log(`[🧠 AI 학습]: 정답 일치! 가중치 유지됨.`);
+                    }
+                    break;
+                case 'ai_auto_train':
+                    log(`[🧠 AI 자동 학습]: AND 연산 패턴 일괄 주입 시작...`);
+                    const dataset = [{i1:0,i2:0,out:0},{i1:0,i2:1,out:0},{i1:1,i2:0,out:0},{i1:1,i2:1,out:1}];
+                    for(let epoch=0; epoch<5; epoch++) {
+                        dataset.forEach(d => {
+                            let s = (d.i1 * aiW1) + (d.i2 * aiW2) + aiBias;
+                            let p = aiActivate(s);
+                            let e = d.out - p;
+                            if(e !== 0) {
+                                aiW1 += aiRate * e * d.i1;
+                                aiW2 += aiRate * e * d.i2;
+                                aiBias += aiRate * e;
+                            }
+                        });
+                    }
+                    log(`[🧠 AI 자동 학습 완료]: 최종 가중치 W1:${aiW1.toFixed(3)}, W2:${aiW2.toFixed(3)}, Bias:${aiBias.toFixed(3)}`);
+                    break;
+                case 'ai_predict':
+                    let t1 = parseFloat(document.getElementById('aiTest1').value);
+                    let t2 = parseFloat(document.getElementById('aiTest2').value);
+                    if(isNaN(t1)||isNaN(t2)) { log("❌ AI 추론 테스트 값을 입력해주세요."); return; }
+                    let tSum = (t1 * aiW1) + (t2 * aiW2) + aiBias;
+                    let tRes = aiActivate(tSum);
+                    log(`[💡 AI 추론 결과]: 입력(${t1}, ${t2}) ➡️ 판단 값: ${tRes} (신경망 활성화 수치: ${tSum.toFixed(3)})`);
                     break;
                 default: log(`-> 작업 완료`); break;
             }
