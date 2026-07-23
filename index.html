@@ -3,17 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro Security & Network Toolkit</title>
+    <title>Dev & Infrastructure Toolkit</title>
     <style>
         :root {
-            --bg: #0b0e14;
+            --bg: #0f1117;
             --fg: #e2e8f0;
-            --accent: #10b981;
-            --accent-hover: #059669;
-            --btn-bg: #161b22;
-            --btn-hover: #21262d;
-            --border: #30363d;
-            --card-bg: #11161d;
+            --accent: #38bdf8;
+            --card-bg: #1e293b;
+            --border: #334155;
+            --btn-bg: #0f172a;
+            --btn-hover: #334155;
         }
 
         body {
@@ -31,7 +30,7 @@
 
         h2 {
             margin: 0 0 20px 0;
-            font-size: 22px;
+            font-size: 20px;
             text-align: center;
             color: var(--accent);
             letter-spacing: -0.5px;
@@ -58,13 +57,10 @@
         .tool-title {
             font-size: 14px;
             font-weight: bold;
-            color: #58a6ff;
-            display: flex;
-            align-items: center;
-            gap: 6px;
+            color: #94a3b8;
         }
 
-        input, textarea, select {
+        input, textarea {
             background-color: var(--btn-bg);
             color: var(--fg);
             border: 1px solid var(--border);
@@ -96,21 +92,21 @@
 
         button:hover {
             background-color: var(--btn-hover);
-            border-color: #8b949e;
+            border-color: #64748b;
         }
 
         button:active {
             transform: scale(0.98);
         }
 
-        .btn-primary {
-            background-color: #0d4429;
-            border-color: #1b6038;
-            color: #3fb950;
+        .btn-action {
+            background-color: #0369a1;
+            border-color: #0ea5e9;
+            color: #ffffff;
         }
 
-        .btn-primary:hover {
-            background-color: #115935;
+        .btn-action:hover {
+            background-color: #0284c7;
         }
 
         .grid-2 {
@@ -120,11 +116,11 @@
         }
 
         .output-box {
-            background-color: #090d12;
-            color: var(--accent);
+            background-color: #020617;
+            color: #4ade80;
             border: 1px solid var(--border);
             width: 100%;
-            height: 130px;
+            height: 150px;
             resize: none;
             font-family: Consolas, monospace;
             font-size: 12px;
@@ -134,242 +130,125 @@
             outline: none;
             line-height: 1.4;
         }
-
-        .status-badge {
-            font-size: 12px;
-            color: #8b949e;
-            text-align: right;
-        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>PRO SECURITY TOOLKIT</h2>
+    <h2>DEV & INFRA TOOLS</h2>
 
-    <!-- 1. GPS 내 위치 측정 -->
+    <!-- 1. API 응답 속도 (Latency) 실시간 측정기 -->
     <div class="tool-box">
-        <span class="tool-title">📍 1. 정밀 GPS 위치 확인</span>
-        <button class="btn-primary" onclick="getMyLocation()">현재 위치 (위도/경도/지도) 측정</button>
+        <span class="tool-title">⏱️ 1. 서버/API 응답 속도(Latency) 측정</span>
+        <input type="text" id="pingUrl" placeholder="측정할 URL 입력 (예: https://api.ipify.org)" value="https://api.ipify.org">
+        <button class="btn-action" onclick="measureLatency()">응답 속도 측정 시작</button>
     </div>
 
-    <!-- 2. 공인 IP & 네트워크 정보 -->
+    <!-- 2. 가상 쇼핑몰 트래픽 (부하 테스트) 시뮬레이터 -->
     <div class="tool-box">
-        <span class="tool-title">🌐 2. 공인 IP & 네트워크 조회</span>
-        <button class="btn-primary" onclick="getPublicIP()">내 공인 IP 및 세부 정보 가져오기</button>
+        <span class="tool-title">🛍️ 2. 가상 동시 요청(RPS) 부하 시뮬레이터</span>
+        <input type="number" id="reqCount" placeholder="요청 횟수 입력 (예: 10)" value="5">
+        <button class="btn-action" onclick="simulateLoadTest()">동시 다중 요청 테스트 실행</button>
     </div>
 
-    <!-- 3. 실무 모의해킹 Payload 복사기 -->
+    <!-- 3. JSON 구조 포맷터 및 유효성 검사 -->
     <div class="tool-box">
-        <span class="tool-title">⚡ 3. 웹 취약점 진단 페이로드 치트시트</span>
-        <select id="payloadSelect">
-            <option value="' OR '1'='1 -- ">SQL Injection (인증 우회 기본형)</option>
-            <option value="<script>alert(document.cookie)</script>">XSS (쿠키 탈취 스크립트)</option>
-            <option value="../../../../etc/passwd">Path Traversal (시스템 파일 접근)</option>
-            <option value="<svg/onload=alert(1)>">XSS (필터 우회 변형 태그)</option>
-        </select>
-        <button onclick="copyPayload()">선택한 페이로드 즉시 복사</button>
+        <span class="tool-title">📦 3. JSON 데이터 정렬 및 파싱 검증</span>
+        <textarea id="jsonInput" style="height: 70px;" placeholder='{"product": "item1", "price": 10000}'></textarea>
+        <button onclick="formatJSONData()">JSON 이쁘게 정렬하기 (Pretty Print)</button>
     </div>
 
-    <!-- 4. JWT (JSON Web Token) 디코더 -->
+    <!-- 4. 쇼핑몰 상품 URL/파라미터 인코더·디코더 -->
     <div class="tool-box">
-        <span class="tool-title">🔓 4. JWT 토큰 분석기 (Payload 파서)</span>
-        <input type="text" id="jwtInput" placeholder="eyJhbGciOi... (JWT 토큰 입력)">
-        <button onclick="decodeJWT()">토큰 구조(Header/Payload) 해체</button>
-    </div>
-
-    <!-- 5. URL / Base64 인코더·디코더 -->
-    <div class="tool-box">
-        <span class="tool-title">🔄 5. 인코딩 / 디코딩 스위트</span>
-        <input type="text" id="encodeInput" placeholder="변환할 문자열 입력">
+        <span class="tool-title">🔗 4. URL 쿼리 스트링 인코더 / 디코더</span>
+        <input type="text" id="queryInput" placeholder="URL 또는 파라미터 입력">
         <div class="grid-2">
-            <button onclick="b64Encode()">Base64 암호화</button>
-            <button onclick="b64Decode()">Base64 복호화</button>
-        </div>
-        <div class="grid-2">
-            <button onclick="urlEncode()">URL 인코딩</button>
-            <button onclick="urlDecode()">URL 디코딩</button>
+            <button onclick="encodeQuery()">URL 인코딩</button>
+            <button onclick="decodeQuery()">URL 디코딩</button>
         </div>
     </div>
 
-    <!-- 6. 강력한 비밀번호 & 해시 생성 -->
+    <!-- 5. 실시간 실행 로그창 -->
     <div class="tool-box">
-        <span class="tool-title">🔑 6. 보안 패스워드 & 길이 계산기</span>
-        <button onclick="generateSecurePassword()">고강도 랜덤 비밀번호 생성 (16자리)</button>
-    </div>
-
-    <!-- 7. XSS / HTML 엔티티 이스케이프 -->
-    <div class="tool-box">
-        <span class="tool-title">🛡️ 7. HTML 엔티티 이스케이프 (방어 코드 변환)</span>
-        <input type="text" id="htmlEscapeInput" placeholder="<script>alert('hack')</script>">
-        <button onclick="escapeHTMLText()">특수문자 안전하게 필터링</button>
-    </div>
-
-    <!-- 8. 민감 정보/패턴 실시간 탐지 스캐너 -->
-    <div class="tool-box">
-        <span class="tool-title">🔍 8. 소스코드 민감 정보 패턴 스캐너</span>
-        <textarea id="scanInput" style="height: 60px;" placeholder="검사할 소스코드나 텍스트 입력..."></textarea>
-        <button onclick="scanSensitiveData()">취약 패턴(API Key / 비번) 검사</button>
-    </div>
-
-    <!-- 9. 데이터 용량 및 브라우저 포문율 계산 -->
-    <div class="tool-box">
-        <span class="tool-title">📊 9. 패킷 / 데이터 용량 단위 환산</span>
-        <input type="text" id="byteInput" placeholder="바이트(Bytes) 입력 (예: 5242880)">
-        <button onclick="convertBytes()">KB / MB / GB로 환산</button>
-    </div>
-
-    <!-- 10. 통합 분석 로그 출력창 -->
-    <div class="tool-box">
-        <span class="tool-title">💻 통합 실행 로그 출력</span>
-        <textarea id="globalLog" class="output-box" readonly>보안 툴킷 준비 완료.</textarea>
-        <div class="grid-2">
-            <button onclick="openMap()" style="background-color: #1b2e23; color: #3fb950;">📍 마지막 좌표 구글 지도 열기</button>
-            <button onclick="document.getElementById('globalLog').value=''">로그 초기화</button>
-        </div>
+        <span class="tool-title">💻 인프라 점검 로그 출력</span>
+        <textarea id="devLog" class="output-box" readonly>인프라 툴 준비 완료.</textarea>
+        <button onclick="document.getElementById('devLog').value=''">로그 초기화</button>
     </div>
 </div>
 
 <script>
-    let lastLat = null;
-    let lastLon = null;
-
     function log(msg) {
-        const box = document.getElementById('globalLog');
+        const box = document.getElementById('devLog');
         box.value += "\n" + msg;
         box.scrollTop = box.scrollHeight;
     }
 
-    // 1. GPS
-    function getMyLocation() {
-        if (!navigator.geolocation) {
-            alert("위치 정보를 지원하지 않는 브라우저입니다.");
-            return;
-        }
-        log("\n[GPS] 위치 정보 수집 요청 중...");
-        navigator.geolocation.getCurrentPosition(
-            (pos) => {
-                lastLat = pos.coords.latitude;
-                lastLon = pos.coords.longitude;
-                log(`[GPS 성공] 위도: ${lastLat}, 경도: ${lastLon} (오차: 약 ${Math.round(pos.coords.accuracy)}m)`);
-            },
-            (err) => { log(`[GPS 오류] 권한이 거부되었거나 실패했습니다: ${err.message}`); },
-            { enableHighAccuracy: true, timeout: 10000 }
-        );
-    }
-
-    function openMap() {
-        if (!lastLat || !lastLon) {
-            alert("측정된 GPS 좌표가 없습니다. 먼저 위치를 측정해주세요.");
-            return;
-        }
-        window.open(`https://maps.google.com/?q=${lastLat},${lastLon}`, '_blank');
-    }
-
-    // 2. 공인 IP 조회
-    async function getPublicIP() {
-        try {
-            log("\n[네트워크] 공인 IP 조회 중...");
-            let res = await fetch("https://ipwho.is/");
-            let data = await res.json();
-            if(data.success) {
-                log(`[IP 조회 성공] IP: ${data.ip}\n- 국가/도시: ${data.country} / ${data.city}\n- ISP: ${data.connection?.isp || '정보 없음'}\n- VPN/호스팅 여부: ${(data.connection?.proxy || data.connection?.hosting) ? '⚠️ 우회/호스팅 의심' : '정상 네트워크'}`);
-            } else {
-                log("[IP 조회 실패]");
-            }
-        } catch(e) {
-            log("[IP 조회 에러]: 네트워크 연결을 확인하세요.");
-        }
-    }
-
-    // 3. 페이로드 복사
-    function copyPayload() {
-        let val = document.getElementById('payloadSelect').value;
-        navigator.clipboard.writeText(val).then(() => {
-            log(`[클립보드]: 페이로드 복사 완료 -> ${val}`);
-            alert("페이로드가 클립보드에 복사되었습니다.");
-        });
-    }
-
-    // 4. JWT 파서
-    function decodeJWT() {
-        try {
-            let token = document.getElementById('jwtInput').value.trim();
-            let base64Url = token.split('.')[1];
-            let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-            let jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
-            log(`\n[JWT 파싱 결과]:\n${jsonPayload}`);
-        } catch(e) {
-            log("[JWT 에러]: 올바른 토큰 형식이 아닙니다.");
-        }
-    }
-
-    // 5. 인코더/디코더
-    function b64Encode() {
-        try {
-            let v = document.getElementById('encodeInput').value;
-            log(`[Base64 Enc]: ${btoa(unescape(encodeURIComponent(v)))}`);
-        } catch(e) { log("인코딩 실패"); }
-    }
-    function b64Decode() {
-        try {
-            let v = document.getElementById('encodeInput').value;
-            log(`[Base64 Dec]: ${decodeURIComponent(escape(atob(v)))}`);
-        } catch(e) { log("디코딩 실패 (잘못된 포맷)"); }
-    }
-    function urlEncode() {
-        let v = document.getElementById('encodeInput').value;
-        log(`[URL Enc]: ${encodeURIComponent(v)}`);
-    }
-    function urlDecode() {
-        let v = document.getElementById('encodeInput').value;
-        log(`[URL Dec]: ${decodeURIComponent(v)}`);
-    }
-
-    // 6. 패스워드 생성기
-    function generateSecurePassword() {
-        const chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=";
-        let pwd = "";
-        for (let i = 0; i < 16; i++) {
-            pwd += chars[Math.floor(Math.random() * chars.length)];
-        }
-        log(`\n[생성된 고강도 비번]: ${pwd}`);
-        navigator.clipboard.writeText(pwd);
-        alert("16자리 고강도 비밀번호가 생성되고 클립보드에 복사되었습니다!");
-    }
-
-    // 7. HTML 이스케이프
-    function escapeHTMLText() {
-        let str = document.getElementById('htmlEscapeInput').value;
-        let escaped = str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-        log(`\n[HTML 방어 변환]:\n${escaped}`);
-    }
-
-    // 8. 민감 정보 스캐너
-    function scanSensitiveData() {
-        let text = document.getElementById('scanInput').value;
-        let patterns = [
-            { name: "AWS Access Key", regex: /AKIA[0-9A-Z]{16}/ },
-            { name: "Private Key", regex: /-----BEGIN PRIVATE KEY-----/ },
-            { name: "임의의 비밀번호 키워드", regex: /password\s*=\s*['"][^'"]+['"]/i },
-            { name: "주민등록번호 패턴", regex: /\d{6}-[1-4]\d{6}/ }
-        ];
+    // 1. API 응답 속도 측정
+    async function measureLatency() {
+        let url = document.getElementById('pingUrl').value.trim();
+        if (!url) { alert("URL을 입력하세요."); return; }
         
-        log("\n[민감 정보 스캔 결과]:");
-        let found = false;
-        patterns.forEach(p => {
-            if (p.regex.test(text)) {
-                log(`⚠️ 경고: [${p.name}] 패턴이 감지되었습니다!`);
-                found = true;
+        log(`\n[Ping 측정]: ${url} 연결 시도 중...`);
+        let startTime = performance.now();
+        try {
+            let res = await fetch(url, { method: 'GET', mode: 'cors' });
+            let endTime = performance.now();
+            let duration = Math.round(endTime - startTime);
+            
+            if (res.ok) {
+                log(`✅ [성공] 응답 속도(Latency): ${duration}ms (Status: ${res.status})`);
+            } else {
+                log(`⚠️ [서버 응답 오류] Status: ${res.status} (${duration}ms)`);
             }
-        });
-        if (!found) log("✅ 위험 패턴이 발견되지 않았습니다.");
+        } catch(e) {
+            log(`❌ [측정 실패]: CORS 정책 또는 네트워크 오류 (${e.message})`);
+        }
     }
 
-    // 9. 용량 환산
-    function convertBytes() {
-        let b = parseInt(document.getElementById('byteInput').value) || 0;
-        log(`[용량 환산]: ${b.toLocaleString()} Bytes = ${(b/1024).toFixed(2)} KB = ${(b/(1024*1024)).toFixed(2)} MB = ${(b/(1024*1024*1024)).toFixed(2)} GB`);
+    // 2. 동시 다중 요청(부하 테스트 시뮬레이션)
+    async function simulateLoadTest() {
+        let count = parseInt(document.getElementById('reqCount').value) || 5;
+        if (count > 20) count = 20; // 브라우저 보호를 위해 최대 20개 제한
+        
+        log(`\n[부하 테스트 시뮬레이션]: 가상 요청 ${count개 동시 발사}...`);
+        let startTime = performance.now();
+        
+        let promises = [];
+        for (let i = 0; i < count; i++) {
+            promises.push(
+                fetch("https://api.ipify.org?format=json", { cache: "no-store" })
+                    .then(res => res.ok)
+                    .catch(() => false)
+            );
+        }
+        
+        let results = await Promise.all(promises);
+        let endTime = performance.now();
+        let successCount = results.filter(r => r).length;
+        
+        log(`📊 [결과]: 총 ${count}개 중 ${successCount}개 성공 | 소요 시간: ${Math.round(endTime - startTime)}ms`);
+    }
+
+    // 3. JSON 포맷터
+    function formatJSONData() {
+        try {
+            let raw = document.getElementById('jsonInput').value;
+            let parsed = JSON.parse(raw);
+            let formatted = JSON.stringify(parsed, null, 2);
+            log(`\n[JSON 정렬 성공]:\n${formatted}`);
+        } catch(e) {
+            log(`\n[JSON 에러]: 유효하지 않은 JSON 구조입니다 (${e.message})`);
+        }
+    }
+
+    // 4. URL 인코더/디코더
+    function encodeQuery() {
+        let val = document.getElementById('queryInput').value;
+        log(`[URL Enc]: ${encodeURIComponent(val)}`);
+    }
+    function decodeQuery() {
+        let val = document.getElementById('queryInput').value;
+        log(`[URL Dec]: ${decodeURIComponent(val)}`);
     }
 </script>
 
