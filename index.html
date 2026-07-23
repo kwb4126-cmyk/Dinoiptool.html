@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IP & Multi Toolkit</title>
+    <title>Pro Security & Network Toolkit</title>
     <style>
         :root {
-            --bg: #121212;
-            --fg: #e0e0e0;
-            --accent: #4caf50;
-            --btn-bg: #1e1e1e;
-            --btn-hover: #2c2c2c;
-            --border: #333;
+            --bg: #0b0e14;
+            --fg: #e2e8f0;
+            --accent: #10b981;
+            --accent-hover: #059669;
+            --btn-bg: #161b22;
+            --btn-hover: #21262d;
+            --border: #30363d;
+            --card-bg: #11161d;
         }
 
         body {
@@ -29,499 +31,345 @@
 
         h2 {
             margin: 0 0 20px 0;
-            font-size: 20px;
+            font-size: 22px;
             text-align: center;
+            color: var(--accent);
             letter-spacing: -0.5px;
         }
 
         .container {
             width: 100%;
-            max-width: 400px;
+            max-width: 480px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 14px;
         }
 
-        input[type="text"] {
+        .tool-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .tool-title {
+            font-size: 14px;
+            font-weight: bold;
+            color: #58a6ff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        input, textarea, select {
             background-color: var(--btn-bg);
             color: var(--fg);
             border: 1px solid var(--border);
-            padding: 12px 16px;
+            padding: 12px 14px;
             font-family: inherit;
-            border-radius: 24px;
+            border-radius: 12px;
             outline: none;
             width: 100%;
             box-sizing: border-box;
-            font-size: 14px;
+            font-size: 13px;
         }
 
-        input[type="text"]:focus {
+        input:focus, textarea:focus {
             border-color: var(--accent);
-        }
-
-        .grid-btns {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
         }
 
         button {
             background-color: var(--btn-bg);
             color: var(--fg);
             border: 1px solid var(--border);
-            padding: 12px 8px;
+            padding: 12px;
             font-family: inherit;
             cursor: pointer;
-            border-radius: 20px;
+            border-radius: 12px;
             font-size: 13px;
-            font-weight: 500;
-            transition: background 0.2s, border-color 0.2s;
+            font-weight: 600;
+            transition: all 0.2s;
         }
 
         button:hover {
             background-color: var(--btn-hover);
-            border-color: #555;
+            border-color: #8b949e;
         }
 
         button:active {
-            transform: scale(0.97);
+            transform: scale(0.98);
         }
 
-        .status-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 13px;
-            color: #aaa;
-            padding: 0 4px;
+        .btn-primary {
+            background-color: #0d4429;
+            border-color: #1b6038;
+            color: #3fb950;
         }
 
-        textarea {
-            background-color: var(--btn-bg);
-            color: var(--fg);
+        .btn-primary:hover {
+            background-color: #115935;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+
+        .output-box {
+            background-color: #090d12;
+            color: var(--accent);
             border: 1px solid var(--border);
             width: 100%;
-            height: 220px;
+            height: 130px;
             resize: none;
             font-family: Consolas, monospace;
             font-size: 12px;
-            padding: 14px;
+            padding: 12px;
             box-sizing: border-box;
-            border-radius: 16px;
+            border-radius: 12px;
             outline: none;
             line-height: 1.4;
         }
 
-        .extra-btns {
-            display: flex;
-            gap: 8px;
-        }
-
-        .extra-btns button {
-            flex: 1;
-            border-radius: 20px;
-            background-color: #1a231a;
-            border-color: #2e522e;
-            color: #81c784;
-        }
-
-        .extra-btns button:hover {
-            background-color: #233523;
-        }
-
-        /* 20가지 서브 툴킷 화면 전용 스타일 */
-        #subToolkitView {
-            display: none;
-            width: 100%;
-            max-width: 450px;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .tool-box {
-            background-color: #1a1d24;
-            border: 1px solid #2d333d;
-            border-radius: 16px;
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .tool-title {
-            font-size: 13px;
-            font-weight: bold;
-            color: #8ab4f8;
-        }
-
-        .sub-grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 6px;
+        .status-badge {
+            font-size: 12px;
+            color: #8b949e;
+            text-align: right;
         }
     </style>
 </head>
 <body>
 
-<!-- [메인 화면] -->
-<div class="container" id="mainView">
-    <h2>위치 및 정보 확인 도구</h2>
+<div class="container">
+    <h2>PRO SECURITY TOOLKIT</h2>
 
-    <div class="grid-btns" style="grid-template-columns: repeat(2, 1fr);">
-        <button onclick="getMyLocation()" style="padding: 14px;">내 위치 찾기 (GPS)</button>
-        <button onclick="clearLog()" style="padding: 14px;">초기화</button>
-    </div>
-
-    <div class="status-bar">
-        <span id="counterLabel">측정 횟수: 0</span>
-        <span id="targetIpLabel" style="color: #666;">정확도: 높음</span>
-    </div>
-
-    <textarea id="logText" readonly>버튼을 눌러 현재 위치를 확인하세요.</textarea>
-
-    <div class="extra-btns">
-        <button onclick="openMap()">📍 구글 지도 열기</button>
-        <button onclick="copyResult()">📋 결과 복사</button>
-    </div>
-
-    <!-- 20가지 기능 화면으로 넘어가는 버튼 -->
-    <button onclick="toggleView(true)" style="background-color: #262118; border-color: #523f2e; color: #ffb74d; border-radius: 20px; padding: 14px; font-weight: bold;">🛠️ 해킹 & 개발 기타 기능 20가지 보기</button>
-</div>
-
-<!-- [20가지 기능 서브 화면] -->
-<div id="subToolkitView">
-    <button onclick="toggleView(false)" style="background-color: #332222; border-color: #663333; color: #ff8888; border-radius: 20px; padding: 14px; font-weight: bold; margin-bottom: 5px;">⬅️ 메인 화면으로 돌아가기 (뒤로가기)</button>
-    
-    <h2>Hacking & Dev Multi-Toolkit</h2>
-
-    <!-- 1 -->
+    <!-- 1. GPS 내 위치 측정 -->
     <div class="tool-box">
-        <span class="tool-title">1. Base64 인코더 / 디코더</span>
-        <input type="text" id="b64Input" placeholder="텍스트 입력" style="border-radius: 12px; padding: 10px;">
-        <div class="sub-grid-2">
-            <button onclick="b64Encode()">인코딩</button>
-            <button onclick="b64Decode()">디코더</button>
+        <span class="tool-title">📍 1. 정밀 GPS 위치 확인</span>
+        <button class="btn-primary" onclick="getMyLocation()">현재 위치 (위도/경도/지도) 측정</button>
+    </div>
+
+    <!-- 2. 공인 IP & 네트워크 정보 -->
+    <div class="tool-box">
+        <span class="tool-title">🌐 2. 공인 IP & 네트워크 조회</span>
+        <button class="btn-primary" onclick="getPublicIP()">내 공인 IP 및 세부 정보 가져오기</button>
+    </div>
+
+    <!-- 3. 실무 모의해킹 Payload 복사기 -->
+    <div class="tool-box">
+        <span class="tool-title">⚡ 3. 웹 취약점 진단 페이로드 치트시트</span>
+        <select id="payloadSelect">
+            <option value="' OR '1'='1 -- ">SQL Injection (인증 우회 기본형)</option>
+            <option value="<script>alert(document.cookie)</script>">XSS (쿠키 탈취 스크립트)</option>
+            <option value="../../../../etc/passwd">Path Traversal (시스템 파일 접근)</option>
+            <option value="<svg/onload=alert(1)>">XSS (필터 우회 변형 태그)</option>
+        </select>
+        <button onclick="copyPayload()">선택한 페이로드 즉시 복사</button>
+    </div>
+
+    <!-- 4. JWT (JSON Web Token) 디코더 -->
+    <div class="tool-box">
+        <span class="tool-title">🔓 4. JWT 토큰 분석기 (Payload 파서)</span>
+        <input type="text" id="jwtInput" placeholder="eyJhbGciOi... (JWT 토큰 입력)">
+        <button onclick="decodeJWT()">토큰 구조(Header/Payload) 해체</button>
+    </div>
+
+    <!-- 5. URL / Base64 인코더·디코더 -->
+    <div class="tool-box">
+        <span class="tool-title">🔄 5. 인코딩 / 디코딩 스위트</span>
+        <input type="text" id="encodeInput" placeholder="변환할 문자열 입력">
+        <div class="grid-2">
+            <button onclick="b64Encode()">Base64 암호화</button>
+            <button onclick="b64Decode()">Base64 복호화</button>
+        </div>
+        <div class="grid-2">
+            <button onclick="urlEncode()">URL 인코딩</button>
+            <button onclick="urlDecode()">URL 디코딩</button>
         </div>
     </div>
 
-    <!-- 2 -->
+    <!-- 6. 강력한 비밀번호 & 해시 생성 -->
     <div class="tool-box">
-        <span class="tool-title">2. URL 인코더 / 디코더</span>
-        <input type="text" id="urlInput" placeholder="URL 입력" style="border-radius: 12px; padding: 10px;">
-        <div class="sub-grid-2">
-            <button onclick="urlEncode()">인코딩</button>
-            <button onclick="urlDecode()">디코더</button>
+        <span class="tool-title">🔑 6. 보안 패스워드 & 길이 계산기</span>
+        <button onclick="generateSecurePassword()">고강도 랜덤 비밀번호 생성 (16자리)</button>
+    </div>
+
+    <!-- 7. XSS / HTML 엔티티 이스케이프 -->
+    <div class="tool-box">
+        <span class="tool-title">🛡️ 7. HTML 엔티티 이스케이프 (방어 코드 변환)</span>
+        <input type="text" id="htmlEscapeInput" placeholder="<script>alert('hack')</script>">
+        <button onclick="escapeHTMLText()">특수문자 안전하게 필터링</button>
+    </div>
+
+    <!-- 8. 민감 정보/패턴 실시간 탐지 스캐너 -->
+    <div class="tool-box">
+        <span class="tool-title">🔍 8. 소스코드 민감 정보 패턴 스캐너</span>
+        <textarea id="scanInput" style="height: 60px;" placeholder="검사할 소스코드나 텍스트 입력..."></textarea>
+        <button onclick="scanSensitiveData()">취약 패턴(API Key / 비번) 검사</button>
+    </div>
+
+    <!-- 9. 데이터 용량 및 브라우저 포문율 계산 -->
+    <div class="tool-box">
+        <span class="tool-title">📊 9. 패킷 / 데이터 용량 단위 환산</span>
+        <input type="text" id="byteInput" placeholder="바이트(Bytes) 입력 (예: 5242880)">
+        <button onclick="convertBytes()">KB / MB / GB로 환산</button>
+    </div>
+
+    <!-- 10. 통합 분석 로그 출력창 -->
+    <div class="tool-box">
+        <span class="tool-title">💻 통합 실행 로그 출력</span>
+        <textarea id="globalLog" class="output-box" readonly>보안 툴킷 준비 완료.</textarea>
+        <div class="grid-2">
+            <button onclick="openMap()" style="background-color: #1b2e23; color: #3fb950;">📍 마지막 좌표 구글 지도 열기</button>
+            <button onclick="document.getElementById('globalLog').value=''">로그 초기화</button>
         </div>
     </div>
-
-    <!-- 3 -->
-    <div class="tool-box">
-        <span class="tool-title">3. 해시 길이 및 코드 변환</span>
-        <input type="text" id="hashInput" placeholder="문자열 입력" style="border-radius: 12px; padding: 10px;">
-        <button onclick="makeHash()">해시 분석</button>
-    </div>
-
-    <!-- 4 -->
-    <div class="tool-box">
-        <span class="tool-title">4. JWT 페이로드 디코더</span>
-        <input type="text" id="jwtInput" placeholder="eyJhbGciOi..." style="border-radius: 12px; padding: 10px;">
-        <button onclick="decodeJWT()">Payload 파싱</button>
-    </div>
-
-    <!-- 5 -->
-    <div class="tool-box">
-        <span class="tool-title">5. 브라우저 및 시스템 정보</span>
-        <button onclick="getAgentInfo()">시스템 정보 확인</button>
-    </div>
-
-    <!-- 6 -->
-    <div class="tool-box">
-        <span class="tool-title">6. 주요 포트 상태 점검 (시뮬레이션)</span>
-        <input type="text" id="portIpInput" placeholder="점검할 도메인 또는 IP" style="border-radius: 12px; padding: 10px;">
-        <button onclick="scanPorts()">포트 상태 체크</button>
-    </div>
-
-    <!-- 7 -->
-    <div class="tool-box">
-        <span class="tool-title">7. UUID (v4) 생성기</span>
-        <button onclick="generateUUID()">UUID 생성</button>
-    </div>
-
-    <!-- 8 -->
-    <div class="tool-box">
-        <span class="tool-title">8. HTML 특수문자 이스케이프</span>
-        <input type="text" id="htmlInput" placeholder="<script>alert(1)</script>" style="border-radius: 12px; padding: 10px;">
-        <button onclick="escapeHTML()">이스케이프 변환</button>
-    </div>
-
-    <!-- 9 -->
-    <div class="tool-box">
-        <span class="tool-title">9. 랜덤 포트 번호 생성 (1024~65535)</span>
-        <button onclick="randomPort()">포트 번호 뽑기</button>
-    </div>
-
-    <!-- 10 -->
-    <div class="tool-box">
-        <span class="tool-title">10. 더미 텍스트 생성기</span>
-        <button onclick="makeLorem()">더미 텍스트 삽입</button>
-    </div>
-
-    <!-- 11 -->
-    <div class="tool-box">
-        <span class="tool-title">11. 보안 패스워드 생성기</span>
-        <button onclick="makePassword()">안전한 비번 생성</button>
-    </div>
-
-    <!-- 12 -->
-    <div class="tool-box">
-        <span class="tool-title">12. 텍스트 HEX(16진수) 변환</span>
-        <input type="text" id="hexInput" placeholder="변환할 텍스트" style="border-radius: 12px; padding: 10px;">
-        <button onclick="toHex()">HEX로 변환</button>
-    </div>
-
-    <!-- 13 -->
-    <div class="tool-box">
-        <span class="tool-title">13. 이메일 정규식 유효성 테스트</span>
-        <input type="text" id="regexInput" placeholder="test@example.com" style="border-radius: 12px; padding: 10px;">
-        <button onclick="testRegex()">검증하기</button>
-    </div>
-
-    <!-- 14 -->
-    <div class="tool-box">
-        <span class="tool-title">14. JSON 정렬(Pretty Print)</span>
-        <input type="text" id="jsonInput" placeholder='{"a":1,"b":2}' style="border-radius: 12px; padding: 10px;">
-        <button onclick="formatJSON()">JSON 정렬</button>
-    </div>
-
-    <!-- 15 -->
-    <div class="tool-box">
-        <span class="tool-title">15. 현재 User-Agent 출력</span>
-        <button onclick="showUA()">UA 확인</button>
-    </div>
-
-    <!-- 16 -->
-    <div class="tool-box">
-        <span class="tool-title">16. 데이터 용량 환산 (Bytes -> KB/MB)</span>
-        <input type="text" id="byteInput" placeholder="바이트 입력" style="border-radius: 12px; padding: 10px;">
-        <button onclick="calcBytes()">용량 계산</button>
-    </div>
-
-    <!-- 17 -->
-    <div class="tool-box">
-        <span class="tool-title">17. 가상 HTTP 리스폰스 헤더 생성</span>
-        <button onclick="makeHeader()">헤더 출력</button>
-    </div>
-
-    <!-- 18 -->
-    <div class="tool-box">
-        <span class="tool-title">18. 영문 모스 부호 간이 변환</span>
-        <input type="text" id="morseInput" placeholder="SOS" style="border-radius: 12px; padding: 10px;">
-        <button onclick="toMorse()">모스부호 변환</button>
-    </div>
-
-    <!-- 19 -->
-    <div class="tool-box">
-        <span class="tool-title">19. CIDR 대역 계산 (예: /24)</span>
-        <button onclick="subnetCalc()">C클래스 대역 확인</button>
-    </div>
-
-    <!-- 20 -->
-    <div class="tool-box">
-        <span class="tool-title">20. 코드/텍스트 공백 압축기</span>
-        <input type="text" id="minifyInput" placeholder="압축할 소스나 텍스트" style="border-radius: 12px; padding: 10px;">
-        <button onclick="minifyText()">공백 제거 압축</button>
-    </div>
-
-    <!-- 서브 화면 전용 결과 로그 -->
-    <div class="tool-box">
-        <span class="tool-title">💻 20가지 툴 통합 결과 로그</span>
-        <textarea id="subOutputLog" readonly style="height: 120px; font-size: 11px; color: var(--accent);">툴킷 준비 완료.</textarea>
-        <button onclick="document.getElementById('subOutputLog').value=''">로그 초기화</button>
-    </div>
-
-    <button onclick="toggleView(false)" style="background-color: #332222; border-color: #663333; color: #ff8888; border-radius: 20px; padding: 14px; font-weight: bold;">⬅️ 메인 화면으로 돌아가기 (뒤로가기)</button>
 </div>
 
 <script>
-    // 화면 전환 함수 (true면 20가지 툴킷 보기, false면 메인으로 돌아가기)
-    function toggleView(showSub) {
-        const main = document.getElementById('mainView');
-        const sub = document.getElementById('subToolkitView');
-        if (showSub) {
-            main.style.display = 'none';
-            sub.style.display = 'flex';
-            window.scrollTo(0, 0);
-        } else {
-            sub.style.display = 'none';
-            main.style.display = 'flex';
-            window.scrollTo(0, 0);
-        }
-    }
-
-    // 메인 GPS 기능 로직
-    let count = 0;
     let lastLat = null;
     let lastLon = null;
-    const txt = document.getElementById('logText');
-    const c = document.getElementById('counterLabel');
 
-    function logMain(text) {
-        txt.value += text;
-        txt.scrollTop = txt.scrollHeight;
+    function log(msg) {
+        const box = document.getElementById('globalLog');
+        box.value += "\n" + msg;
+        box.scrollTop = box.scrollHeight;
     }
 
+    // 1. GPS
     function getMyLocation() {
         if (!navigator.geolocation) {
-            alert("이 브라우저는 위치 정보를 지원하지 않습니다.");
+            alert("위치 정보를 지원하지 않는 브라우저입니다.");
             return;
         }
-        logMain("\n> 위치 정보 요청 중...\n");
+        log("\n[GPS] 위치 정보 수집 요청 중...");
         navigator.geolocation.getCurrentPosition(
-            (position) => {
-                lastLat = position.coords.latitude;
-                lastLon = position.coords.longitude;
-                let accuracy = position.coords.accuracy;
-                let timeStr = new Date().toLocaleTimeString();
-
-                let resultStr = `[${timeStr}] GPS 위치 측정 성공\n- 위도: ${lastLat}\n- 경도: ${lastLon}\n- 오차 범위: 약 ${Math.round(accuracy)}m\n\n`;
-                count++;
-                c.innerText = `측정 횟수: ${count}`;
-                logMain(resultStr);
+            (pos) => {
+                lastLat = pos.coords.latitude;
+                lastLon = pos.coords.longitude;
+                log(`[GPS 성공] 위도: ${lastLat}, 경도: ${lastLon} (오차: 약 ${Math.round(pos.coords.accuracy)}m)`);
             },
-            (error) => {
-                alert("위치 정보를 가져오지 못했습니다. 위치 권한을 확인해주세요.");
-                logMain(`> 에러: ${error.message}\n`);
-            },
-            { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+            (err) => { log(`[GPS 오류] 권한이 거부되었거나 실패했습니다: ${err.message}`); },
+            { enableHighAccuracy: true, timeout: 10000 }
         );
     }
 
     function openMap() {
         if (!lastLat || !lastLon) {
-            alert("먼저 내 위치를 확인해주세요.");
+            alert("측정된 GPS 좌표가 없습니다. 먼저 위치를 측정해주세요.");
             return;
         }
         window.open(`https://maps.google.com/?q=${lastLat},${lastLon}`, '_blank');
     }
 
-    function copyResult() {
-        if (!txt.value) {
-            alert("복사할 내용이 없습니다.");
-            return;
+    // 2. 공인 IP 조회
+    async function getPublicIP() {
+        try {
+            log("\n[네트워크] 공인 IP 조회 중...");
+            let res = await fetch("https://ipwho.is/");
+            let data = await res.json();
+            if(data.success) {
+                log(`[IP 조회 성공] IP: ${data.ip}\n- 국가/도시: ${data.country} / ${data.city}\n- ISP: ${data.connection?.isp || '정보 없음'}\n- VPN/호스팅 여부: ${(data.connection?.proxy || data.connection?.hosting) ? '⚠️ 우회/호스팅 의심' : '정상 네트워크'}`);
+            } else {
+                log("[IP 조회 실패]");
+            }
+        } catch(e) {
+            log("[IP 조회 에러]: 네트워크 연결을 확인하세요.");
         }
-        navigator.clipboard.writeText(txt.value).then(() => {
-            alert("결과가 복사되었습니다!");
+    }
+
+    // 3. 페이로드 복사
+    function copyPayload() {
+        let val = document.getElementById('payloadSelect').value;
+        navigator.clipboard.writeText(val).then(() => {
+            log(`[클립보드]: 페이로드 복사 완료 -> ${val}`);
+            alert("페이로드가 클립보드에 복사되었습니다.");
         });
     }
 
-    function clearLog() {
-        txt.value = "";
-    }
-
-    // 20가지 서브 툴킷 로그 함수
-    const subLog = (msg) => {
-        const box = document.getElementById('subOutputLog');
-        box.value += "\n" + msg;
-        box.scrollTop = box.scrollHeight;
-    };
-
-    function b64Encode() {
-        try { subLog("[Base64 인코딩]: " + btoa(unescape(encodeURIComponent(document.getElementById('b64Input').value)))); } catch(e) { subLog("에러 발생"); }
-    }
-    function b64Decode() {
-        try { subLog("[Base64 디코딩]: " + decodeURIComponent(escape(atob(document.getElementById('b64Input').value)))); } catch(e) { subLog("디코딩 실패"); }
-    }
-    function urlEncode() {
-        subLog("[URL 인코딩]: " + encodeURIComponent(document.getElementById('urlInput').value));
-    }
-    function urlDecode() {
-        subLog("[URL 디코딩]: " + decodeURIComponent(document.getElementById('urlInput').value));
-    }
-    function makeHash() {
-        let val = document.getElementById('hashInput').value;
-        subLog(`[해시 분석] 길이: ${val.length}글자`);
-    }
+    // 4. JWT 파서
     function decodeJWT() {
         try {
-            let token = document.getElementById('jwtInput').value;
+            let token = document.getElementById('jwtInput').value.trim();
             let base64Url = token.split('.')[1];
             let base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
             let jsonPayload = decodeURIComponent(atob(base64).split('').map(c => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)).join(''));
-            subLog("[JWT Payload]:\n" + jsonPayload);
-        } catch(e) { subLog("[JWT 에러]: 유효하지 않은 토큰입니다."); }
+            log(`\n[JWT 파싱 결과]:\n${jsonPayload}`);
+        } catch(e) {
+            log("[JWT 에러]: 올바른 토큰 형식이 아닙니다.");
+        }
     }
-    function getAgentInfo() {
-        subLog(`[브라우저 정보]: 언어(${navigator.language}) 플랫폼(${navigator.platform})`);
-    }
-    function scanPorts() {
-        let target = document.getElementById('portIpInput').value || "Localhost";
-        subLog(`[포트 스캔]: ${target} 대상 포트 상태 확인 완료`);
-    }
-    function generateUUID() {
-        let d = new Date().getTime();
-        let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-            let r = (d + Math.random()*16)%16 | 0;
-            d = Math.floor(d/16);
-            return (c=='x' ? r : (r&0x3|0x8)).toString(16);
-        });
-        subLog("[UUID v4]: " + uuid);
-    }
-    function escapeHTML() {
-        let str = document.getElementById('htmlInput').value;
-        subLog("[이스케이프]: " + str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"));
-    }
-    function randomPort() {
-        let p = Math.floor(Math.random() * (65535 - 1024 + 1)) + 1024;
-        subLog("[랜덤 포트]: " + p);
-    }
-    function makeLorem() {
-        subLog("[더미 텍스트]: Lorem ipsum dolor sit amet.");
-    }
-    function makePassword() {
-        let chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*";
-        let pwd = "";
-        for (let i=0; i<16; i++) pwd += chars[Math.floor(Math.random() * chars.length)];
-        subLog("[생성된 비번]: " + pwd);
-    }
-    function toHex() {
-        let str = document.getElementById('hexInput').value;
-        let hex = "";
-        for (let i=0; i<str.length; i++) hex += str.charCodeAt(0).toString(16) + " ";
-        subLog("[HEX 변환]: " + hex);
-    }
-    function testRegex() {
-        let email = document.getElementById('regexInput').value;
-        let reg = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        subLog(`[정규식 검증]: ${email} => ${reg.test(email) ? "유효함" : "불일치"}`);
-    }
-    function formatJSON() {
+
+    // 5. 인코더/디코더
+    function b64Encode() {
         try {
-            let obj = JSON.parse(document.getElementById('jsonInput').value);
-            subLog("[JSON 정렬]:\n" + JSON.stringify(obj, null, 2));
-        } catch(e) { subLog("[JSON 에러]: 파싱 실패"); }
+            let v = document.getElementById('encodeInput').value;
+            log(`[Base64 Enc]: ${btoa(unescape(encodeURIComponent(v)))}`);
+        } catch(e) { log("인코딩 실패"); }
     }
-    function showUA() {
-        subLog("[User-Agent]: " + navigator.userAgent);
+    function b64Decode() {
+        try {
+            let v = document.getElementById('encodeInput').value;
+            log(`[Base64 Dec]: ${decodeURIComponent(escape(atob(v)))}`);
+        } catch(e) { log("디코딩 실패 (잘못된 포맷)"); }
     }
-    function calcBytes() {
+    function urlEncode() {
+        let v = document.getElementById('encodeInput').value;
+        log(`[URL Enc]: ${encodeURIComponent(v)}`);
+    }
+    function urlDecode() {
+        let v = document.getElementById('encodeInput').value;
+        log(`[URL Dec]: ${decodeURIComponent(v)}`);
+    }
+
+    // 6. 패스워드 생성기
+    function generateSecurePassword() {
+        const chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+-=";
+        let pwd = "";
+        for (let i = 0; i < 16; i++) {
+            pwd += chars[Math.floor(Math.random() * chars.length)];
+        }
+        log(`\n[생성된 고강도 비번]: ${pwd}`);
+        navigator.clipboard.writeText(pwd);
+        alert("16자리 고강도 비밀번호가 생성되고 클립보드에 복사되었습니다!");
+    }
+
+    // 7. HTML 이스케이프
+    function escapeHTMLText() {
+        let str = document.getElementById('htmlEscapeInput').value;
+        let escaped = str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        log(`\n[HTML 방어 변환]:\n${escaped}`);
+    }
+
+    // 8. 민감 정보 스캐너
+    function scanSensitiveData() {
+        let text = document.getElementById('scanInput').value;
+        let patterns = [
+            { name: "AWS Access Key", regex: /AKIA[0-9A-Z]{16}/ },
+            { name: "Private Key", regex: /-----BEGIN PRIVATE KEY-----/ },
+            { name: "임의의 비밀번호 키워드", regex: /password\s*=\s*['"][^'"]+['"]/i },
+            { name: "주민등록번호 패턴", regex: /\d{6}-[1-4]\d{6}/ }
+        ];
+        
+        log("\n[민감 정보 스캔 결과]:");
+        let found = false;
+        patterns.forEach(p => {
+            if (p.regex.test(text)) {
+                log(`⚠️ 경고: [${p.name}] 패턴이 감지되었습니다!`);
+                found = true;
+            }
+        });
+        if (!found) log("✅ 위험 패턴이 발견되지 않았습니다.");
+    }
+
+    // 9. 용량 환산
+    function convertBytes() {
         let b = parseInt(document.getElementById('byteInput').value) || 0;
-        subLog(`[용량 환산]: ${b} Bytes = ${(b/1024).toFixed(2)} KB`);
-    }
-    function makeHeader() {
-        subLog("[HTTP Header]: HTTP/1.1 200 OK");
-    }
-    function toMorse() {
-        const table = { 'A':'.-', 'B':'-...', 'O':'---', 'S':'...' };
-        let txt = document.getElementById('morseInput').value.toUpperCase();
-        let res = txt.split('').map(c => table[c] || c).join(' ');
-        subLog("[모스부호]: " + res);
-    }
-    function subnetCalc() {
-        subLog("[서브넷]: CIDR /24 대역 총 호스트 254개");
-    }
-    function minifyText() {
-        let t = document.getElementById('minifyInput').value;
-        subLog("[압축]: " + t.replace(/\s+/g, ' ').trim());
+        log(`[용량 환산]: ${b.toLocaleString()} Bytes = ${(b/1024).toFixed(2)} KB = ${(b/(1024*1024)).toFixed(2)} MB = ${(b/(1024*1024*1024)).toFixed(2)} GB`);
     }
 </script>
 
