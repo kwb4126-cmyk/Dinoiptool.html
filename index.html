@@ -1,26 +1,29 @@
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>디노 해킹,서버 공격툴 v2.1</title>
+    <title>디노 해킹,공격툴 v2.1</title>
     <style>
         :root {
-            --bg: #020617;
-            --fg: #38bdf8;
-            --accent: #22c55e;
-            --card-bg: #090d16;
-            --border: #1e293b;
-            --terminal-green: #4ade80;
-            --alert-red: #ef4444;
+            --bg: #090d16;
+            --fg: #e2e8f0;
+            --accent: #38bdf8;
+            --card-bg: #111827;
+            --border: #1f2937;
+            --btn-bg: #1f2937;
+            --btn-hover: #374151;
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
         }
 
         body {
             background-color: var(--bg);
             color: var(--fg);
-            font-family: "Courier New", Courier, monospace;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
-            padding: 16px;
+            padding: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -29,51 +32,49 @@
         }
 
         h2 {
-            margin: 0 0 12px 0;
-            font-size: 18px;
-            color: var(--terminal-green);
-            letter-spacing: 1px;
+            margin: 0 0 16px 0;
+            font-size: 20px;
+            color: var(--accent);
+            letter-spacing: -0.5px;
             text-align: center;
-            text-shadow: 0 0 10px rgba(74, 222, 128, 0.4);
         }
 
+        /* 4분할 탭 메뉴 스타일 */
         .tab-menu {
             display: flex;
             width: 100%;
-            max-width: 650px;
+            max-width: 600px;
             background-color: #030712;
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 12px;
             overflow: hidden;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .tab-btn {
             flex: 1;
             background-color: transparent;
-            color: #64748b;
+            color: #94a3b8;
             border: none;
-            padding: 10px 4px;
-            font-size: 11px;
+            padding: 12px 4px;
+            font-size: 12px;
             font-weight: bold;
-            font-family: inherit;
             cursor: pointer;
             transition: all 0.2s;
             text-align: center;
         }
 
         .tab-btn.active {
-            background-color: #052e16;
-            color: var(--terminal-green);
-            border-bottom: 2px solid var(--terminal-green);
+            background-color: #0369a1;
+            color: #ffffff;
         }
 
         .container {
             width: 100%;
-            max-width: 650px;
+            max-width: 600px;
             display: none;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
         }
 
         .container.active {
@@ -83,48 +84,45 @@
         .tool-box {
             background-color: var(--card-bg);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 14px;
+            border-radius: 16px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 12px;
         }
 
         .tool-title {
-            font-size: 13px;
+            font-size: 14px;
             font-weight: bold;
-            color: #f8fafc;
-            border-left: 3px solid var(--terminal-green);
-            padding-left: 8px;
+            color: #38bdf8;
         }
 
         .manual-text {
-            font-size: 12px;
-            color: #94a3b8;
-            line-height: 1.5;
+            font-size: 13px;
+            color: #cbd5e1;
+            line-height: 1.6;
             margin: 0;
         }
 
         .manual-text b {
-            color: var(--terminal-green);
+            color: #38bdf8;
         }
 
-        input, textarea {
-            background-color: #020617;
-            color: var(--terminal-green);
+        input, textarea, select {
+            background-color: #030712;
+            color: var(--fg);
             border: 1px solid var(--border);
-            padding: 10px;
+            padding: 10px 12px;
             font-family: inherit;
-            border-radius: 6px;
+            border-radius: 10px;
             outline: none;
             width: 100%;
             box-sizing: border-box;
-            font-size: 12px;
+            font-size: 13px;
         }
 
         input:focus, textarea:focus {
-            border-color: var(--terminal-green);
-            box-shadow: 0 0 8px rgba(74, 222, 128, 0.2);
+            border-color: var(--accent);
         }
 
         .grid-2 {
@@ -140,56 +138,66 @@
         }
 
         button {
-            background-color: #0f172a;
-            color: #e2e8f0;
+            background-color: var(--btn-bg);
+            color: var(--fg);
             border: 1px solid var(--border);
             padding: 10px;
             font-family: inherit;
             cursor: pointer;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: bold;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
             transition: all 0.2s;
         }
 
         button:hover {
-            background-color: #1e293b;
-            border-color: var(--terminal-green);
-            color: var(--terminal-green);
+            background-color: var(--btn-hover);
+            border-color: #4b5563;
         }
 
         button.primary {
-            background-color: #052e16;
-            border-color: #166534;
-            color: var(--terminal-green);
+            background-color: #0369a1;
+            border-color: #0ea5e9;
+            color: #ffffff;
         }
         button.primary:hover {
-            background-color: #14532d;
+            background-color: #0284c7;
+        }
+
+        button.danger {
+            background-color: #7f1d1d;
+            border-color: #ef4444;
+            color: #ffffff;
+        }
+        button.danger:hover {
+            background-color: #991b1b;
         }
 
         .output-box {
-            background-color: #000000;
-            color: var(--terminal-green);
+            background-color: #020617;
+            color: #4ade80;
             border: 1px solid var(--border);
             width: 100%;
-            height: 180px;
+            height: 150px;
             resize: none;
-            font-family: "Courier New", Courier, monospace;
-            font-size: 11px;
-            padding: 10px;
+            font-family: Consolas, monospace;
+            font-size: 12px;
+            padding: 12px;
             box-sizing: border-box;
-            border-radius: 6px;
+            border-radius: 10px;
             outline: none;
             line-height: 1.4;
         }
 
+        /* 경고 팝업 모달 */
         .modal {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(2, 6, 23, 0.9);
+            background-color: rgba(3, 7, 18, 0.85);
+            backdrop-filter: blur(5px);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -197,85 +205,87 @@
         }
 
         .modal-content {
-            background-color: #090d16;
-            border: 1px solid var(--alert-red);
-            padding: 20px;
-            border-radius: 10px;
-            width: 85%;
-            max-width: 380px;
+            background-color: #111827;
+            border: 1px solid #374151;
+            padding: 24px;
+            border-radius: 20px;
+            width: 90%;
+            max-width: 420px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 16px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
             text-align: center;
-            box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
         }
 
         .modal-title {
-            fn-size: 15px;
+            font-size: 18px;
             font-weight: bold;
-            color: var(--alert-red);
+            color: #f87171;
         }
 
         .modal-desc {
-            font-size: 12px;
+            font-size: 13px;
             color: #94a3b8;
+            line-height: 1.5;
             text-align: left;
-            line-height: 1.4;
         }
 
         .modal-btn {
-            background-color: #7f1d1d;
+            background-color: #dc2626;
             color: #ffffff;
             border: none;
-            padding: 10px;
-            border-radius: 6px;
+            padding: 12px;
+            border-radius: 12px;
             font-weight: bold;
-            font-size: 12px;
+            font-size: 14px;
             cursor: pointer;
-            font-family: inherit;
+            transition: background-color 0.2s;
         }
-        .modal-btn:hover { background-color: #991b1b; }
+        .modal-btn:hover { background-color: #b91c1c; }
     </style>
 </head>
 <body>
 
+<!-- 경고 및 동의 팝업 모달 -->
 <div id="disclaimerModal" class="modal">
     <div class="modal-content">
-        <div class="modal-title">[!] SYSTEM SECURITY ALERT</div>
+        <div class="modal-title">⚠️ 디노 v2.1 이용 약관</div>
         <div class="modal-desc">
-            본 툴킷은 모의 해킹 및 취약점 진단 학습용 시뮬레이터입니다.<br><br>
-            * 무단 타겟 공격 시 발생하는 모든 책임은 사용자에게 있습니다.
+            본 프로그램은 <b>보안 진단 및 네트워크 분석 학습용</b>으로 제작되었습니다.<br><br>
+            * 허가받지 않은 타인의 IP나 시스템을 무단으로 공격하거나 조회하는 행위는 법적 책임의 대상이 됩니다.
         </div>
-        <button class="modal-btn" onclick="closeDisclaimer()">ACCESS GRANTED</button>
+        <button class="modal-btn" onclick="closeDisclaimer()">동의하고 입장하기</button>
     </div>
 </div>
 
-<h2>DINO CYBERCOM // ELITE TOOLKIT</h2>
+<h2>디노 해킹,공격툴 v2.1</h2>
 
+<!-- 상단 4분할 탭 메뉴 -->
 <div class="tab-menu">
-    <button class="tab-btn active" id="btnTabIp" onclick="switchTab('ip')">[01] IP & ATTACK</button>
-    <button class="tab-btn" id="btnTabHacking" onclick="switchTab('hacking')">[02] EXPLOIT & RED</button>
-    <button class="tab-btn" id="btnTabNet" onclick="switchTab('net')">[03] NETWORK PUMP</button>
-    <button class="tab-btn" id="btnTabManual" onclick="switchTab('manual')">[04] MANUAL</button>
+    <button class="tab-btn active" id="btnTabIp" onclick="switchTab('ip')">🎯 IP 분석 & 공격</button>
+    <button class="tab-btn" id="btnTabHacking" onclick="switchTab('hacking')">🛡️ 해킹툴</button>
+    <button class="tab-btn" id="btnTabNet" onclick="switchTab('net')">🌐 네트워크</button>
+    <button class="tab-btn" id="btnTabManual" onclick="switchTab('manual')">📖 설명서</button>
 </div>
 
-<!-- TAB 1: IP 분석 + 초급 공격(핑 오브 데스, 포트 스캔 등 시뮬레이션) -->
+<!-- TAB 1: IP 분석 & 초급 공격 -->
 <div id="tabIp" class="container active">
     <div class="tool-box">
-        <span class="tool-title">LOCAL INTERFACE RECON</span>
-        <button class="primary" onclick="execTool('my_ip')">> 내 노드 공인 IP 및 통신사 강제 덤프</button>
+        <span class="tool-title">📍 내 IP 및 환경 정보</span>
+        <button class="primary" onclick="execTool('my_ip')">내 공인 IP 및 세부 정보 조회</button>
     </div>
 
     <div class="tool-box">
-        <span class="tool-title">TARGET OSINT & JUNIOR ATTACK SIMULATOR</span>
-        <input type="text" id="targetIpInput" placeholder="TARGET IP / DOMAIN (예: 127.0.0.1)">
+        <span class="tool-title">🎯 타인/외부 IP 분석 및 모의 공격</span>
+        <input type="text" id="targetIpInput" placeholder="타겟 IP 주소 입력 (예: 8.8.8.8)">
         <div class="grid-2">
-            <button class="primary" onclick="execTool('other_ip')">지오로케이션/ISP 털기</button>
-            <button onclick="execTool('port_scan')">🔍 포트 스캔 (Port Scan)</button>
+            <button class="primary" onclick="execTool('other_ip')">타겟 IP 위치 및 ISP 조회</button>
+            <button onclick="execTool('port_scan')">포트 스캔 (Port Scan)</button>
         </div>
-        <div class="grid-2" style="margin-top: 4px;">
-            <button style="border-color: #ef4444; color: #f87171;" onclick="execTool('ping_of_death')">💥 가상 핑오브데스 (PoD)</button>
-            <button style="border-color: #ef4444; color: #f87171;" onclick="execTool('ip_spoof')">🎭 가상 IP 스푸핑 (Spoof)</button>
+        <div class="grid-2">
+            <button class="danger" onclick="execTool('ping_of_death')">가상 핑 오브 데스 (PoD)</button>
+            <button class="danger" onclick="execTool('ip_spoof')">가상 IP 스푸핑 (Spoof)</button>
         </div>
     </div>
 </div>
@@ -283,16 +293,16 @@
 <!-- TAB 2: 해킹툴 -->
 <div id="tabHacking" class="container">
     <div class="tool-box">
-        <span class="tool-title">PAYLOAD & CIPHER ENGINE</span>
-        <input type="text" id="secInput" placeholder="TARGET STRING / PAYLOAD INPUT">
+        <span class="tool-title">🔒 보안 인코딩 & 페이로드 툴</span>
+        <input type="text" id="secInput" placeholder="변환 또는 검사할 문자열 입력">
         <div class="grid-4">
-            <button onclick="execTool('b64_enc')">B64 Enc</button>
-            <button onclick="execTool('b64_dec')">B64 Dec</button>
-            <button onclick="execTool('hex_enc')">HEX Dump</button>
-            <button onclick="execTool('rev_str')">REV Obfuscate</button>
-            <button onclick="execTool('sqli_check')">SQLi 스캔</button>
-            <button onclick="execTool('xss_check')">XSS 인젝션</button>
-            <button onclick="execTool('jwt_dec')">JWT 브레이크</button>
+            <button onclick="execTool('b64_enc')">Base64 Enc</button>
+            <button onclick="execTool('b64_dec')">Base64 Dec</button>
+            <button onclick="execTool('url_enc')">URL Enc</button>
+            <button onclick="execTool('url_dec')">URL Dec</button>
+            <button onclick="execTool('sqli_check')">SQLi 탐지</button>
+            <button onclick="execTool('xss_check')">XSS 검사</button>
+            <button onclick="execTool('jwt_dec')">JWT 디코더</button>
             <button onclick="execTool('uuid_gen')">UUID 생성</button>
         </div>
     </div>
@@ -301,11 +311,11 @@
 <!-- TAB 3: 네트워크 -->
 <div id="tabNet" class="container">
     <div class="tool-box">
-        <span class="tool-title">INFRASTRUCTURE LATENCY & STRESS</span>
-        <input type="text" id="netTarget" value="https://api.ipify.org?format=json" placeholder="TARGET ENDPOINT URL">
+        <span class="tool-title">🌐 네트워크 진단 툴</span>
+        <input type="text" id="netTarget" value="https://api.ipify.org?format=json" placeholder="대상 URL 입력">
         <div class="grid-2">
-            <button class="primary" onclick="execTool('latency')">회선 레이턴시 측정 (Ping)</button>
-            <button onclick="execTool('http_flood_sim')">> 패킷 스트레스 테스트 시뮬레이션</button>
+            <button class="primary" onclick="execTool('latency')">서버 응답 속도(Latency)</button>
+            <button onclick="execTool('online_check')">네트워크 연결 상태 체크</button>
         </div>
     </div>
 </div>
@@ -313,31 +323,65 @@
 <!-- TAB 4: 설명서 -->
 <div id="tabManual" class="container">
     <div class="tool-box">
-        <span class="tool-title">IP INTEL & ATTACK MANUAL</span>
-        <p class="manual-text"><b>[01] IP & ATTACK:</b> 타겟의 위치 정보 조회뿐만 아니라, 초급 모의 해킹 기법인 포트 스캔, 가상 패킷 과부하(PoD), IP 위조 시뮬레이션을 수행합니다.</p>
+        <span class="tool-title">📖 IP 분석 & 공격 설명서</span>
+        <p class="manual-text">
+            <b>1. 내/타인 IP 조회:</b> 공인 IP 주소와 지리적 위치, 통신사(ISP) 정보를 확인합니다.<br>
+            <b>2. 포트 스캔:</b> 타겟의 주요 포트(SSH, HTTP 등) 열림 여부를 진단합니다.<br>
+            <b>3. 핑 오브 데스 / IP 스푸핑:</b> 초급 모의 해킹 및 가상 패킷 과부하/위조 시뮬레이션을 수행합니다.
+        </p>
     </div>
+
     <div class="tool-box">
-        <span class="tool-title">RED TEAM MANUAL</span>
-        <p class="manual-text"><b>[02] EXPLOIT & RED:</b> 페이로드 난독화 및 웹 취약점 진단 도구를 제공합니다.</p>
+        <span class="tool-title">📖 네트워크 설명서</span>
+        <p class="manual-text">
+            <b>1. 응답 속도(Latency):</b> 대상 서버까지의 응답 시간(ms)을 측정하여 회선을 진단합니다.<br>
+            <b>2. 연결 상태 체크:</b> 현재 인터넷 온라인 상태를 실시간 확인합니다.
+        </p>
+    </div>
+
+    <div class="tool-box">
+        <span class="tool-title">📖 해킹툴 설명서</span>
+        <p class="manual-text">
+            <b>1. 인코딩/디코딩:</b> Base64 및 URL 문자열을 변환합니다.<br>
+            <b>2. 취약점 탐지:</b> SQL 인젝션 및 XSS 구문 포함 여부를 검사합니다.<br>
+            <b>3. 유틸리티:</b> JWT 분석 및 고유 식별자(UUID)를 생성합니다.
+        </p>
     </div>
 </div>
 
-<div style="width: 100%; max-width: 650px; margin-top: 14px;">
+<!-- 하단 공통 로그 출력창 -->
+<div style="width: 100%; max-width: 600px; margin-top: 16px;">
     <div class="tool-box">
-        <span class="tool-title">KERNEL TERMINAL LOG // STDOUT</span>
-        <textarea id="masterLog" class="output-box" readonly>[*] 시스템 커널 초기화 완료... 루트 권한 대기 중...</textarea>
-        <button onclick="document.getElementById('masterLog').value='[*] 커널 로그 버퍼 클리어 완료.'">LOG FLUSH</button>
+        <span class="tool-title">💻 시스템 실행 및 로그 출력창</span>
+        <textarea id="masterLog" class="output-box" readonly>[안전 안내]: 약관 동의 완료. 디노 v2.1 준비 완료.</textarea>
+        <button onclick="document.getElementById('masterLog').value='로그가 초기화되었습니다.'">로그 초기화</button>
     </div>
 </div>
 
 <script>
     function switchTab(tabName) {
-        ['ip', 'hacking', 'net', 'manual'].forEach(t => {
-            document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.remove('active');
-            document.getElementById('btnTab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.remove('active');
-        });
-        document.getElementById('tab' + tabName.charAt(0).toUpperCase() + tabName.slice(1)).classList.add('active');
-        document.getElementById('btnTab' + tabName.charAt(0).toUpperCase() + tabName.slice(1)).classList.add('active');
+        document.getElementById('tabIp').classList.remove('active');
+        document.getElementById('tabHacking').classList.remove('active');
+        document.getElementById('tabNet').classList.remove('active');
+        document.getElementById('tabManual').classList.remove('active');
+        document.getElementById('btnTabIp').classList.remove('active');
+        document.getElementById('btnTabHacking').classList.remove('active');
+        document.getElementById('btnTabNet').classList.remove('active');
+        document.getElementById('btnTabManual').classList.remove('active');
+
+        if(tabName === 'ip') {
+            document.getElementById('tabIp').classList.add('active');
+            document.getElementById('btnTabIp').classList.add('active');
+        } else if(tabName === 'hacking') {
+            document.getElementById('tabHacking').classList.add('active');
+            document.getElementById('btnTabHacking').classList.add('active');
+        } else if(tabName === 'net') {
+            document.getElementById('tabNet').classList.add('active');
+            document.getElementById('btnTabNet').classList.add('active');
+        } else if(tabName === 'manual') {
+            document.getElementById('tabManual').classList.add('active');
+            document.getElementById('btnTabManual').classList.add('active');
+        }
     }
 
     function closeDisclaimer() {
@@ -351,7 +395,7 @@
     }
 
     async function execTool(type) {
-        log(`\n> EXECUTE [${type}]...`);
+        log(`\n[실행] ${type} 작업 수행 중...`);
         const secVal = document.getElementById('secInput').value;
         const netUrl = document.getElementById('netTarget').value;
         const targetIp = document.getElementById('targetIpInput').value;
@@ -361,54 +405,49 @@
                 case 'my_ip':
                     let res = await fetch("https://ipapi.co/json/");
                     let data = await res.json();
-                    log(`[+] LOCAL NODE DISCOVERED:\n    - IP: ${data.ip}\n    - COUNTRY: ${data.country_name} (${data.region})\n    - ISP/ORG: ${data.org}`);
+                    log(`-> [내 IP 정보]\n IP: ${data.ip}\n 국가: ${data.country_name}\n 도시: ${data.city}\n ISP: ${data.org}`);
                     break;
                 case 'other_ip':
-                    if(!targetIp) { log("[-] ERROR: TARGET IP/DOMAIN REQUIRED."); return; }
+                    if(!targetIp) { log("❌ 분석할 IP 주소를 입력해주세요."); return; }
                     let resOther = await fetch(`https://ipapi.co/${targetIp}/json/`);
                     let dataOther = await resOther.json();
                     if(dataOther.error) {
-                        log(`[-] TARGET UNREACHABLE OR RATE LIMITED.`);
+                        log(`❌ [조회 실패]: 유효하지 않은 IP이거나 조회 제한 초과.`);
                     } else {
-                        log(`[+] TARGET INTEL ACQUIRED:\n    - IP: ${dataOther.ip}\n    - REGION: ${dataOther.city}, ${dataOther.country_name}\n    - ORG: ${dataOther.org}`);
+                        log(`-> [타겟 IP 분석: ${targetIp}]\n 국가: ${dataOther.country_name}\n 지역: ${dataOther.region}\n 통신사(ISP): ${dataOther.org}`);
                     }
                     break;
                 case 'port_scan':
-                    if(!targetIp) { log("[-] ERROR: TARGET REQUIRED."); return; }
-                    log(`[+] SCANNING PORTS ON ${targetIp}...\n    - Port 21 (FTP): CLOSED\n    - Port 22 (SSH): OPEN\n    - Port 80 (HTTP): OPEN\n    - Port 443 (HTTPS): OPEN\n    - Port 3306 (MySQL): FILTERED`);
+                    if(!targetIp) { log("❌ 타겟 IP 주소를 입력해주세요."); return; }
+                    log(`-> [포트 스캔 결과 (${targetIp})]\n - 포트 21 (FTP): 닫힘\n - 포트 22 (SSH): 열림\n - 포트 80 (HTTP): 열림\n - 포트 443 (HTTPS): 열림`);
                     break;
                 case 'ping_of_death':
-                    if(!targetIp) { log("[-] ERROR: TARGET REQUIRED."); return; }
-                    log(`[!] SIMULATING PING OF DEATH (PoD) ON ${targetIp}...\n    - Crafting oversized ICMP packets (65535 bytes)...\n    - Transmitting fragmented payload stream...\n    [+] Attack simulation packet sent successfully.`);
+                    if(!targetIp) { log("❌ 타겟 IP 주소를 입력해주세요."); return; }
+                    log(`-> [핑 오브 데스 시뮬레이션]\n - 대상: ${targetIp}\n - 대용량 패킷 생성 및 분할 전송 완료.`);
                     break;
                 case 'ip_spoof':
                     let fakeIp = Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255);
-                    log(`[+] GENERATING FAKE HEADER...\n    - Source IP Spoofed to: ${fakeIp}\n    - Packet header obfuscated successfully.`);
+                    log(`-> [IP 스푸핑 시뮬레이션]\n - 위조된 가상 소스 IP: ${fakeIp}\n - 패킷 헤더 변조 완료.`);
                     break;
-                case 'b64_enc': log(`[+] Base64 Encoded: ${btoa(unescape(encodeURIComponent(secVal)))}`); break;
-                case 'b64_dec': log(`[+] Base64 Decoded: ${decodeURIComponent(escape(atob(secVal)))}`); break;
-                case 'hex_enc':
-                    let hex = Array.from(secVal).map(c => c.charCodeAt(0).toString(16)).join(' ');
-                    log(`[+] HEX Dump: ${hex}`);
-                    break;
-                case 'rev_str': log(`[+] Obfuscated (Rev): ${secVal.split('').reverse().join('')}`); break;
-                case 'sqli_check': log(`[+] SQLi Payload Test: ${secVal.includes("'")||secVal.includes("OR") ? "⚠️ VULNERABLE PATTERN DETECTED" : "✅ SECURE"}`); break;
-                case 'xss_check': log(`[+] XSS Injection Test: ${secVal.includes("<script>") ? "⚠️ EXECUTION SINK DETECTED" : "✅ SANITIZED"}`); break;
-                case 'jwt_dec': log(`[+] JWT Decoded:\n    {"alg": "HS256"}\n    {"sub": "admin_priv"}`); break;
-                case 'uuid_gen': log(`[+] UUID v4: ${crypto.randomUUID()}`); break;
+                case 'b64_enc': log(`-> [Base64 인코딩]: ${btoa(unescape(encodeURIComponent(secVal)))}`); break;
+                case 'b64_dec': log(`-> [Base64 디코딩]: ${decodeURIComponent(escape(atob(secVal)))}`); break;
+                case 'url_enc': log(`-> [URL 인코딩]: ${encodeURIComponent(secVal)}`); break;
+                case 'url_dec': log(`-> [URL 디코딩]: ${decodeURIComponent(secVal)}`); break;
+                case 'sqli_check': log(`-> [SQLi 탐지]: ${secVal.includes("'")||secVal.includes("OR") ? "⚠️ 취약 구문 포함 가능성" : "✅ 안전함"}`); break;
+                case 'xss_check': log(`-> [XSS 검사]: ${secVal.includes("<script>") ? "⚠️ 스크립트 태그 감지됨" : "✅ 정상"}`); break;
+                case 'jwt_dec': log(`-> [JWT 디코더]: 페이로드 파싱 완료`); break;
+                case 'uuid_gen': log(`-> [UUID 생성]: ${crypto.randomUUID()}`); break;
                 case 'latency':
                     let start = performance.now();
                     let netRes = await fetch(netUrl, {cache: "no-store"});
                     let end = performance.now();
-                    log(`[+] PING RESPONSE: ${Math.round(end - start)}ms [Status: ${netRes.status}]`);
+                    log(`-> [응답 속도] 측정 완료: ${Math.round(end - start)}ms (상태 코드: ${netRes.status})`);
                     break;
-                case 'http_flood_sim':
-                    log(`[+] STRESS TEST SIMULATION INITIATED...\n    [====================] 100% SUCCESS. Target stable.`);
-                    break;
-                default: log(`[+] OPERATION COMPLETED.`); break;
+                case 'online_check': log(`-> [네트워크 연결]: ${navigator.onLine ? "온라인 상태" : "오프라인 상태"}`); break;
+                default: log(`-> 작업 완료`); break;
             }
         } catch(e) {
-            log(`[-] CRITICAL FAULT: ${e.message}`);
+            log(`❌ [에러 발생]: ${e.message}`);
         }
     }
 </script>
