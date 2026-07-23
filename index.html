@@ -17,6 +17,7 @@
             --danger-hover: #dc2626;
             --ultimate: #a855f7;
             --hidden-color: #f59e0b;
+            --binary-color: #06b6d4;
         }
 
         body {
@@ -40,7 +41,7 @@
             text-align: center;
         }
 
-        /* 탭 메뉴 스타일 (4분할로 복귀) */
+        /* 탭 메뉴 스타일 (4분할 유지) */
         .tab-menu {
             display: flex;
             width: 100%;
@@ -104,6 +105,10 @@
 
         .tool-title.hidden-mode {
             color: var(--hidden-color);
+        }
+
+        .tool-title.binary {
+            color: var(--binary-color);
         }
 
         .manual-text {
@@ -184,6 +189,13 @@
             color: #ffffff;
         }
         button.ultimate:hover { background-color: #6b21a8; }
+
+        button.binary-btn {
+            background-color: #0e7490;
+            border-color: #06b6d4;
+            color: #ffffff;
+        }
+        button.binary-btn:hover { background-color: #155e75; }
 
         button.hidden-btn {
             background-color: #b45309;
@@ -288,7 +300,7 @@
     <button class="tab-btn" id="btnTabManual" onclick="switchTab('manual')">📖 통합 설명서</button>
 </div>
 
-<!-- TAB 1: IP 분석 & 공격 (히든 페이지 연동 포함) -->
+<!-- TAB 1: IP 분석 & 공격 + 2진수 해독기 통합 -->
 <div id="tabIp" class="container active">
     <div class="tool-box">
         <span class="tool-title">📍 내 IP 및 인터페이스 분석</span>
@@ -309,6 +321,16 @@
         <div class="grid-2">
             <button class="danger" onclick="execTool('ping_of_death')">가상 핑 오브 데스 (PoD)</button>
             <button class="danger" onclick="execTool('ip_spoof')">가상 IP 스푸핑 및 패킷 변조</button>
+        </div>
+    </div>
+
+    <!-- 2진수 인코더 / 해독기 유틸리티 추가 -->
+    <div class="tool-box">
+        <span class="tool-title binary">🤖 2진수 인코더 및 디코더 (해독기)</span>
+        <input type="text" id="binaryInput" placeholder="변환할 문자 또는 2진수(0과 1) 입력">
+        <div class="grid-2">
+            <button class="binary-btn" onclick="execTool('binary_encode')">문자 ➔ 2진수 변환</button>
+            <button class="binary-btn" onclick="execTool('binary_decode')">2진수 ➔ 문자 해독</button>
         </div>
     </div>
 </div>
@@ -364,12 +386,12 @@
     </div>
 </div>
 
-<!-- TAB 4: 설명서 (히든 페이지 전용 섹션 포함) -->
+<!-- TAB 4: 설명서 -->
 <div id="tabManual" class="container">
     <div class="tool-box" id="manualBox">
         <span class="tool-title ultimate">📖 디노 v2.1 통합 가이드 및 설명서</span>
         <p class="manual-text">
-            <b>1. IP & OSINT:</b> 네트워크 공인 IP 조회 및 타겟 역추적 기능을 수행합니다.<br>
+            <b>1. IP & OSINT 및 2진수 해독기:</b> 네트워크 조회 및 텍스트/2진수 간 상호 변환·해독을 처리합니다.<br>
             <b>2. 고급 해킹 & C2:</b> 코발트 스트라이크 비콘, 미미카츠 자격증명 추출 등을 포함합니다.<br>
             <b>3. 초고급 사이버전:</b> UEFI 루트킷 및 제로클릭 웜 전파 시뮬레이션을 제공합니다.<br><br>
             🔓 <b>히든 키 힌트:</b> IP 입력란에 인증 UUID(`dino-hidden-secret-2026`)를 넣고 지오로케이션 조회를 누르면 숨겨진 시스템 관리 페이지로 전환됩니다.
@@ -411,8 +433,9 @@
         const secVal = document.getElementById('secInput').value;
         const targetIp = document.getElementById('targetIpInput').value.trim();
         const ultTarget = document.getElementById('ultTarget').value || "SYSTEM-NODE-X";
+        const binVal = document.getElementById('binaryInput').value;
 
-        // UUID를 이용한 히든 페이지 / 시크릿 모드 가로채기 체크
+        // UUID를 이용한 히든 페이지 가로채기 체크
         if (targetIp === "dino-hidden-secret-2026") {
             log(`🔓 [인증 성공]: 유효한 관리자 UUID 감지됨! 숨겨진 슈퍼 루트 권한 히든 페이지를 활성화합니다.`);
             activateHiddenPage();
@@ -447,6 +470,21 @@
                 case 'ip_spoof':
                     let fakeIp = Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255);
                     log(`-> [IP 스푸핑]: 가조작 소스 IP (${fakeIp}) 바인딩 완료.`);
+                    break;
+                // 2진수 인코더 / 해독기 기능 구현
+                case 'binary_encode':
+                    if(!binVal) { log("❌ 변환할 텍스트를 입력해주세요."); return; }
+                    let encoded = binVal.split('').map(char => char.charCodeAt(0).toString(2).padStart(8, '0')).join(' ');
+                    log(`-> [2진수 변환 결과]:\n${encoded}`);
+                    break;
+                case 'binary_decode':
+                    if(!binVal) { log("❌ 해독할 2진수 코드를 입력해주세요."); return; }
+                    try {
+                        let decoded = binVal.trim().split(/\s+/).map(b => String.fromCharCode(parseInt(b, 2))).join('');
+                        log(`-> [2진수 해독 결과]: ${decoded}`);
+                    } catch(err) {
+                        log(`❌ [해독 실패]: 올바른 2진수 형식(띄어쓰기로 구분된 8자리 0과 1)인지 확인해주세요.`);
+                    }
                     break;
                 case 'cobalt_simulate':
                     log(`-> [🔵 Cobalt Strike C2]\n - 비콘 리스너 구동 완료.\n [+] 가상 에이전트 핸드셰이크 성공 (HTTPS Beacon).`);
@@ -496,7 +534,6 @@
         }
     }
 
-    // UUID 입력 시 열리는 숨겨진 히든 페이지 UI 변환 함수
     function activateHiddenPage() {
         switchTab('manual');
         const manualBox = document.getElementById('manualBox');
