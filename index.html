@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Omni Security Toolkit</title>
+    <title>디노 IP, 해킹툴 & 설명서</title>
     <style>
         :root {
             --bg: #090d16;
@@ -36,7 +36,7 @@
             text-align: center;
         }
 
-        /* 3분할 탭 메뉴 스타일 */
+        /* 4분할 탭 메뉴 스타일 */
         .tab-menu {
             display: flex;
             width: 100%;
@@ -53,8 +53,8 @@
             background-color: transparent;
             color: #94a3b8;
             border: none;
-            padding: 12px 6px;
-            font-size: 13px;
+            padding: 12px 4px;
+            font-size: 12px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.2s;
@@ -91,6 +91,17 @@
         .tool-title {
             font-size: 14px;
             font-weight: bold;
+            color: #38bdf8;
+        }
+
+        .manual-text {
+            font-size: 13px;
+            color: #cbd5e1;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .manual-text b {
             color: #38bdf8;
         }
 
@@ -166,7 +177,7 @@
             line-height: 1.4;
         }
 
-        /* 동의 팝업 모달 */
+        /* 경고 팝업 모달 */
         .modal {
             position: fixed;
             top: 0;
@@ -227,25 +238,26 @@
 <!-- 경고 및 동의 팝업 모달 -->
 <div id="disclaimerModal" class="modal">
     <div class="modal-content">
-        <div class="modal-title">⚠️ 경고 및 이용 약관</div>
+        <div class="modal-title">⚠️ 디노 툴킷 이용 약관</div>
         <div class="modal-desc">
-            본 툴킷은 <b>보안 진단 및 네트워크 분석 학습용</b>으로 제작되었습니다.<br><br>
-            * 타인의 IP나 시스템을 무단으로 조회·공격하는 행위는 법적 책임의 대상이 될 수 있습니다.
+            본 프로그램은 <b>보안 진단 및 네트워크 분석 학습용</b>으로 제작되었습니다.<br><br>
+            * 허가받지 않은 타인의 IP나 시스템을 무단으로 조회·공격하는 행위는 법적 책임의 대상이 됩니다.
         </div>
         <button class="modal-btn" onclick="closeDisclaimer()">동의하고 입장하기</button>
     </div>
 </div>
 
-<h2>OMNI SECURITY TOOLKIT</h2>
+<h2>디노 IP, 해킹툴 & 설명서</h2>
 
-<!-- 상단 3분할 탭 메뉴 -->
+<!-- 상단 4분할 탭 메뉴 -->
 <div class="tab-menu">
     <button class="tab-btn active" id="btnTabIp" onclick="switchTab('ip')">🎯 IP 분석</button>
     <button class="tab-btn" id="btnTabHacking" onclick="switchTab('hacking')">🛡️ 해킹툴</button>
     <button class="tab-btn" id="btnTabNet" onclick="switchTab('net')">🌐 네트워크</button>
+    <button class="tab-btn" id="btnTabManual" onclick="switchTab('manual')">📖 설명서</button>
 </div>
 
-<!-- TAB 1: IP 분석 (내 IP + 타인 IP 추적/조회) -->
+<!-- TAB 1: IP 분석 -->
 <div id="tabIp" class="container active">
     <div class="tool-box">
         <span class="tool-title">📍 내 IP 및 환경 정보</span>
@@ -259,7 +271,7 @@
     </div>
 </div>
 
-<!-- TAB 2: 해킹툴 (인코딩, 페이로드, 취약점 탐지) -->
+<!-- TAB 2: 해킹툴 -->
 <div id="tabHacking" class="container">
     <div class="tool-box">
         <span class="tool-title">🔒 보안 인코딩 & 페이로드 툴</span>
@@ -277,7 +289,7 @@
     </div>
 </div>
 
-<!-- TAB 3: 네트워크 (핑, 속도, 연결 상태) -->
+<!-- TAB 3: 네트워크 -->
 <div id="tabNet" class="container">
     <div class="tool-box">
         <span class="tool-title">🌐 네트워크 진단 툴</span>
@@ -289,11 +301,39 @@
     </div>
 </div>
 
+<!-- TAB 4: 설명서 (IP, 네트워크, 해킹툴 설명서 통합) -->
+<div id="tabManual" class="container">
+    <div class="tool-box">
+        <span class="tool-title">📖 IP 분석 설명서</span>
+        <p class="manual-text">
+            <b>1. 내 IP 조회:</b> 현재 접속한 기기의 공인 IP 주소 및 소속 국가, 통신사(ISP) 정보를 확인합니다.<br>
+            <b>2. 타인 IP 분석:</b> 조회하고자 하는 외부 IP 주소를 입력하여 해당 대역의 지리적 위치, 지역 및 통신사 정보를 간편하게 역추적합니다.
+        </p>
+    </div>
+
+    <div class="tool-box">
+        <span class="tool-title">📖 네트워크 설명서</span>
+        <p class="manual-text">
+            <b>1. 응답 속도(Latency):</b> 지정한 대상 서버까지 신호가 도달하고 돌아오는 시간(ms)을 측정하여 회선 상태를 진단합니다.<br>
+            <b>2. 연결 상태 체크:</b> 현재 기기가 인터넷에 정상적으로 연결되어 온라인 상태인지 실시간으로 확인합니다.
+        </p>
+    </div>
+
+    <div class="tool-box">
+        <span class="tool-title">📖 해킹툴 설명서</span>
+        <p class="manual-text">
+            <b>1. 인코딩/디코딩:</b> Base64 및 URL 인코딩 방식을 통해 문자열을 변환하거나 원상복구합니다.<br>
+            <b>2. 취약점 탐지:</b> 입력된 문자열 내에 SQL 인젝션(`'`, `OR`)이나 XSS(`&lt;script&gt;`) 구문이 포함되어 있는지 검사합니다.<br>
+            <b>3. 유틸리티:</b> JWT 토큰 분석 및 고유 식별자(UUID v4)를 생성합니다.
+        </p>
+    </div>
+</div>
+
 <!-- 하단 공통 로그 출력창 -->
 <div style="width: 100%; max-width: 600px; margin-top: 16px;">
     <div class="tool-box">
         <span class="tool-title">💻 시스템 실행 및 로그 출력창</span>
-        <textarea id="masterLog" class="output-box" readonly>[안전 안내]: 약관 동의 완료. 툴킷 준비 완료.</textarea>
+        <textarea id="masterLog" class="output-box" readonly>[안전 안내]: 약관 동의 완료. 디노 툴킷 준비 완료.</textarea>
         <button onclick="document.getElementById('masterLog').value='로그가 초기화되었습니다.'">로그 초기화</button>
     </div>
 </div>
@@ -303,9 +343,11 @@
         document.getElementById('tabIp').classList.remove('active');
         document.getElementById('tabHacking').classList.remove('active');
         document.getElementById('tabNet').classList.remove('active');
+        document.getElementById('tabManual').classList.remove('active');
         document.getElementById('btnTabIp').classList.remove('active');
         document.getElementById('btnTabHacking').classList.remove('active');
         document.getElementById('btnTabNet').classList.remove('active');
+        document.getElementById('btnTabManual').classList.remove('active');
 
         if(tabName === 'ip') {
             document.getElementById('tabIp').classList.add('active');
@@ -313,9 +355,12 @@
         } else if(tabName === 'hacking') {
             document.getElementById('tabHacking').classList.add('active');
             document.getElementById('btnTabHacking').classList.add('active');
-        } else {
+        } else if(tabName === 'net') {
             document.getElementById('tabNet').classList.add('active');
             document.getElementById('btnTabNet').classList.add('active');
+        } else if(tabName === 'manual') {
+            document.getElementById('tabManual').classList.add('active');
+            document.getElementById('btnTabManual').classList.add('active');
         }
     }
 
